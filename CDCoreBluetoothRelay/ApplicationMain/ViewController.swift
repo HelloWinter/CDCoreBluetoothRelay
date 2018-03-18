@@ -12,8 +12,6 @@ class ViewController: UIViewController {
     
     private lazy var scrollView : BluetoothRelayPannelView = {
         let scrollView = BluetoothRelayPannelView()
-        
-//        scrollView.delegate = self
         return scrollView
     }()
     
@@ -25,10 +23,6 @@ class ViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
     }
     
 }

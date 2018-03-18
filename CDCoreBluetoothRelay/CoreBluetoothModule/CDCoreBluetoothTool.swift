@@ -31,8 +31,8 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     private var notifyCharteristic : CBCharacteristic?
     
     func writeData() -> Void {
-        let data = "1".data(using: String.Encoding.utf8)
-        self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
+        let data = "".data(using: String.Encoding.utf8)
+        self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withoutResponse)
     }
 }
 
@@ -59,7 +59,10 @@ extension CDCoreBluetoothTool {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
-        if let name = peripheral.name, name.contains("WeLoop"){
+//        if  {
+//            
+//        }
+        if let name = peripheral.name, (name.contains("WeLoop") || name.contains("dong")) {
             self.peripheral = peripheral
             cMgr!.connect(peripheral, options: nil)
             cMgr!.stopScan()

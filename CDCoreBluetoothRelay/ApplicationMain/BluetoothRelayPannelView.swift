@@ -10,6 +10,8 @@ import UIKit
 
 class BluetoothRelayPannelView: UIScrollView {
 
+    private weak var bluetoothTool : CDCoreBluetoothTool?
+    
     private lazy var mainPannel : MainPannelView = {
         let imageV = MainPannelView(frame: .zero)
         return imageV
@@ -28,6 +30,7 @@ class BluetoothRelayPannelView: UIScrollView {
         bounces = false
         addSubview(mainPannel)
         addSubview(configurePannel)
+        bluetoothTool = CDCoreBluetoothTool.shared
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,5 +44,10 @@ class BluetoothRelayPannelView: UIScrollView {
         mainPannel.frame = CGRect(x: 0, y: 0, width: panelWidth, height: panelHeight)
         configurePannel.frame = CGRect(x: 0, y: mainPannel.frame.maxY, width: panelWidth, height: panelHeight)
         self.contentSize = CGSize(width: panelWidth, height: panelHeight * 2)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        bluetoothTool!.writeData()
     }
 }
