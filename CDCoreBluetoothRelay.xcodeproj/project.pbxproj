@@ -14,6 +14,9 @@
 		B417C2EA205E051300858FCD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2E9205E051300858FCD /* ViewController.swift */; };
 		B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2EC205E057000858FCD /* CDCoreBluetoothTool.swift */; };
 		B417C2F0205E077000858FCD /* CDSendEmailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2EF205E077000858FCD /* CDSendEmailManager.swift */; };
+		B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */; };
+		B417C2F4205E70E700858FCD /* MainPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F3205E70E700858FCD /* MainPannelView.swift */; };
+		B417C2F6205E711500858FCD /* ConfigurePannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F5205E711500858FCD /* ConfigurePannelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		B417C2E9205E051300858FCD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B417C2EC205E057000858FCD /* CDCoreBluetoothTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCoreBluetoothTool.swift; sourceTree = "<group>"; };
 		B417C2EF205E077000858FCD /* CDSendEmailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSendEmailManager.swift; sourceTree = "<group>"; };
+		B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothRelayPannelView.swift; sourceTree = "<group>"; };
+		B417C2F3205E70E700858FCD /* MainPannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPannelView.swift; sourceTree = "<group>"; };
+		B417C2F5205E711500858FCD /* ConfigurePannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurePannelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				B417C2E9205E051300858FCD /* ViewController.swift */,
+				B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */,
+				B417C2F3205E70E700858FCD /* MainPannelView.swift */,
+				B417C2F5205E711500858FCD /* ConfigurePannelView.swift */,
 			);
 			path = ApplicationMain;
 			sourceTree = "<group>";
@@ -168,8 +177,11 @@
 			files = (
 				B417C2EA205E051300858FCD /* ViewController.swift in Sources */,
 				B410306D205D3965002B6579 /* AppDelegate.swift in Sources */,
+				B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */,
 				B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */,
+				B417C2F6205E711500858FCD /* ConfigurePannelView.swift in Sources */,
 				B417C2F0205E077000858FCD /* CDSendEmailManager.swift in Sources */,
+				B417C2F4205E70E700858FCD /* MainPannelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
