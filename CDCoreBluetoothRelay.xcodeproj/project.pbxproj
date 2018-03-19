@@ -17,6 +17,8 @@
 		B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */; };
 		B417C2F4205E70E700858FCD /* MainPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F3205E70E700858FCD /* MainPannelView.swift */; };
 		B417C2F6205E711500858FCD /* ConfigurePannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F5205E711500858FCD /* ConfigurePannelView.swift */; };
+		B417C2F8205F7C0F00858FCD /* PannelTypeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F7205F7C0F00858FCD /* PannelTypeSelectView.swift */; };
+		B417C2FA205F7C3A00858FCD /* PannelTypeSelectPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F9205F7C3A00858FCD /* PannelTypeSelectPopView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothRelayPannelView.swift; sourceTree = "<group>"; };
 		B417C2F3205E70E700858FCD /* MainPannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPannelView.swift; sourceTree = "<group>"; };
 		B417C2F5205E711500858FCD /* ConfigurePannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurePannelView.swift; sourceTree = "<group>"; };
+		B417C2F7205F7C0F00858FCD /* PannelTypeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PannelTypeSelectView.swift; sourceTree = "<group>"; };
+		B417C2F9205F7C3A00858FCD /* PannelTypeSelectPopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PannelTypeSelectPopView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */,
 				B417C2F3205E70E700858FCD /* MainPannelView.swift */,
 				B417C2F5205E711500858FCD /* ConfigurePannelView.swift */,
+				B417C2F7205F7C0F00858FCD /* PannelTypeSelectView.swift */,
+				B417C2F9205F7C3A00858FCD /* PannelTypeSelectPopView.swift */,
 			);
 			path = ApplicationMain;
 			sourceTree = "<group>";
@@ -175,7 +181,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B417C2F8205F7C0F00858FCD /* PannelTypeSelectView.swift in Sources */,
 				B417C2EA205E051300858FCD /* ViewController.swift in Sources */,
+				B417C2FA205F7C3A00858FCD /* PannelTypeSelectPopView.swift in Sources */,
 				B410306D205D3965002B6579 /* AppDelegate.swift in Sources */,
 				B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */,
 				B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */,

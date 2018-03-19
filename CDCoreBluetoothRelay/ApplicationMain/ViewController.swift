@@ -20,6 +20,12 @@ class ViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.frame = view.bounds
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        get{
+            return true
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

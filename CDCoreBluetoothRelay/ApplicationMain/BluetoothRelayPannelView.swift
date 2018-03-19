@@ -46,8 +46,8 @@ class BluetoothRelayPannelView: UIScrollView {
         self.contentSize = CGSize(width: panelWidth, height: panelHeight * 2)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        bluetoothTool!.writeData()
-    }
+    //TEST
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        bluetoothTool!.writeData()
+//    }
 }

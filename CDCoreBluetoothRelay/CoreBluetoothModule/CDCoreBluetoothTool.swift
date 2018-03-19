@@ -31,8 +31,35 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     private var notifyCharteristic : CBCharacteristic?
     
     func writeData() -> Void {
-        let data = "".data(using: String.Encoding.utf8)
+        let data = dataFrom(hexString: "0xff")
+        print("发送data：\(data!)")
         self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withoutResponse)
+    }
+    
+    private func dataFrom(hexString : String) -> Data? {
+        if hexString.count == 0 {
+            return nil
+        }
+        var mutableData = Data.init(capacity: 8)
+        
+        var range : NSRange
+        
+        if hexString.count % 2 == 0 {
+            range = NSRange(location: 0, length: 2)
+        }else{
+            range = NSRange(location: 0, length: 1)
+        }
+        
+        for _ in (range.location..<hexString.count).filter({($0 - range.location) % 2 == 0}) {
+            var anInt : UInt32 = 0
+            let hexCharStr = (hexString as NSString).substring(with: range)
+            let scanner = Scanner(string: hexCharStr)
+            scanner.scanHexInt32(&anInt)
+            mutableData.append(Data.init(bytes: &anInt, count: 1))
+            range.location += range.length;
+            range.length = 2;
+        }
+        return mutableData
     }
 }
 
