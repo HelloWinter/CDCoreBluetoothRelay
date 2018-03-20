@@ -15,6 +15,7 @@ class PannelTypeSelectView: UIView {
     private lazy var lbPannelType : UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 14)
         label.backgroundColor = UIColor(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0, alpha: 1.0)
         label.textColor = UIColor.white
         label.text = "Customize it"

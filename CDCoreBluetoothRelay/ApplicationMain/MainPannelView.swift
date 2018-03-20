@@ -30,13 +30,25 @@ class MainPannelView: UIImageView {
     
     private lazy var pannelTypeSelectView : PannelTypeSelectView = {
         let view = PannelTypeSelectView()
+        view.showOrHideViewClosure = {[weak self] (show : Bool) in
+            if show {
+                self?.selectPopVew.show()
+            }else{
+                self?.selectPopVew.hide()
+            }
+        }
         return view
+    }()
+    
+    private lazy var selectPopVew : PannelTypeSelectPopView = {
+        let popView = PannelTypeSelectPopView()
+        return popView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true
-        backgroundColor = UIColor(red: 187.0/255.0, green: 187.0/255.0, blue: 187.0/255.0, alpha: 1.0)
+//        backgroundColor = UIColor(red: 187.0/255.0, green: 187.0/255.0, blue: 187.0/255.0, alpha: 1.0)
         addSubview(pannelUpView)
         addSubview(pannelDownView)
         addSubview(dragImageView)
@@ -62,8 +74,8 @@ class MainPannelView: UIImageView {
         
         dragImageView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - imgHeight, width: imgWidth, height: imgHeight)
         
-        let selectViewWidth : CGFloat = 200
-        pannelTypeSelectView.frame = CGRect(x: imgWidth - 20 - selectViewWidth, y: 30, width: selectViewWidth, height: 40)
+        let selectViewWidth : CGFloat = 145
+        pannelTypeSelectView.frame = CGRect(x: imgWidth - 10 - selectViewWidth, y: 20, width: selectViewWidth, height: 40)
     }
 
 }

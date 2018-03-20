@@ -87,7 +87,7 @@ extension CDCoreBluetoothTool {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
-        if let name = peripheral.name, name.contains("Blank") {
+        if let name = peripheral.name, name.contains("Default") {
             self.peripheral = peripheral
             cMgr!.connect(peripheral, options: nil)
             cMgr!.stopScan()
