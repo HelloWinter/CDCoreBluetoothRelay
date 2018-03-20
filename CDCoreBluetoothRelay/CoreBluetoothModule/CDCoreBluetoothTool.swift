@@ -9,9 +9,9 @@
 import UIKit
 import CoreBluetooth
 
-private let ServiceUUID = "180A"//"ffe0"
-private let WriteCharacteristicUUID = "2A29"//"ffe1"
-private let NotifyCharacteristicUUID = "2A24"//"ffe1"
+private let ServiceUUID = "FFE0"//"ffe0"
+private let WriteCharacteristicUUID = "FFE1"//"ffe1"
+private let NotifyCharacteristicUUID = "FFE1"//"ffe1"
 
 class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
     
@@ -31,9 +31,9 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     private var notifyCharteristic : CBCharacteristic?
     
     func writeData() -> Void {
-        let data = dataFrom(hexString: "0xff")
-        print("发送data：\(data!)")
-        self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withoutResponse)
+        let data = dataFrom(hexString: "5501020001D9")
+//        let data = "1101".data(using: String.Encoding.utf8)
+        self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
     }
     
     private func dataFrom(hexString : String) -> Data? {
@@ -61,6 +61,7 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
         }
         return mutableData
     }
+    
 }
 
 extension CDCoreBluetoothTool {
@@ -86,17 +87,14 @@ extension CDCoreBluetoothTool {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
-//        if  {
-//            
-//        }
-        if let name = peripheral.name, (name.contains("WeLoop") || name.contains("dong")) {
+        if let name = peripheral.name, name.contains("Blank") {
             self.peripheral = peripheral
             cMgr!.connect(peripheral, options: nil)
             cMgr!.stopScan()
         }
-        //        if peripheral.identifier.uuidString == "" {
-        //
-        //        }
+//        if peripheral.identifier.uuidString == ServiceUUID {
+//
+//        }
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -143,19 +141,18 @@ extension CDCoreBluetoothTool {
             print(error.localizedDescription)
             return
         }
-        
         for characteristic in service.characteristics! {
-            print("characteristicUUID : \(characteristic.uuid.uuidString)")
+            print("characteristic.uuid.uuidString : \(characteristic.uuid.uuidString)")
             
+            if characteristic.uuid.uuidString == NotifyCharacteristicUUID {
+                self.notifyCharteristic=characteristic
+                peripheral.setNotifyValue(true, for: self.notifyCharteristic!)
+            }
+
             if characteristic.uuid.uuidString == WriteCharacteristicUUID {
                 self.characteristic = characteristic
-                peripheral.readValue(for: self.characteristic!)
+//                peripheral.readValue(for: self.notifyCharteristic!)
             }
-            
-            //            if characteristic.uuid.uuidString == NotifyCharacteristicUUID {
-            //                self.notifyCharteristic=characteristic
-            //                peripheral.setNotifyValue(true, for: self.notifyCharteristic!)
-            //            }
             
         }
         
@@ -171,8 +168,9 @@ extension CDCoreBluetoothTool {
         if characteristic.uuid.uuidString == WriteCharacteristicUUID {
             //characteristic.value就是你要的数据
             let data = characteristic.value
-            let receiveStr = String(data: data!, encoding: String.Encoding.utf8)
-            print("receiveStr : \(receiveStr!)")
+            //String(data: data!, encoding: String.Encoding.utf8)
+            let receiveStr = DataTransformUtilities.hexString(from: data)
+            print("receiveStr : \(receiveStr)")
         }
     }
     //中心读取外设实时数据

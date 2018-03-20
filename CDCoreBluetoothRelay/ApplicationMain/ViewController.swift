@@ -19,6 +19,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(scrollView)
         scrollView.frame = view.bounds
+        
+        
+        
     }
     
     override var prefersStatusBarHidden: Bool {
