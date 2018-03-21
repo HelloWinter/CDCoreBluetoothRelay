@@ -49,6 +49,8 @@ class BluetoothRelayPannelView: UIScrollView {
     
     //TEST
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        bluetoothTool!.writeData()
+//        bluetoothTool!.writeData()
+        let emailView = EmailRSSView(frame: .zero)
+        emailView.show()
     }
 }

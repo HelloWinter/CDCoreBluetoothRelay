@@ -20,6 +20,7 @@
 		B417C2F8205F7C0F00858FCD /* PannelTypeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F7205F7C0F00858FCD /* PannelTypeSelectView.swift */; };
 		B417C2FA205F7C3A00858FCD /* PannelTypeSelectPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F9205F7C3A00858FCD /* PannelTypeSelectPopView.swift */; };
 		B41A15752060E1060057BAA6 /* DataTransformUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B41A15742060E1060057BAA6 /* DataTransformUtilities.m */; };
+		B41A15772061FAE60057BAA6 /* EmailRSSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41A15762061FAE60057BAA6 /* EmailRSSView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		B41A15722060E1060057BAA6 /* CDCoreBluetoothRelay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CDCoreBluetoothRelay-Bridging-Header.h"; sourceTree = "<group>"; };
 		B41A15732060E1060057BAA6 /* DataTransformUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTransformUtilities.h; sourceTree = "<group>"; };
 		B41A15742060E1060057BAA6 /* DataTransformUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataTransformUtilities.m; sourceTree = "<group>"; };
+		B41A15762061FAE60057BAA6 /* EmailRSSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRSSView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				B417C2F5205E711500858FCD /* ConfigurePannelView.swift */,
 				B417C2F7205F7C0F00858FCD /* PannelTypeSelectView.swift */,
 				B417C2F9205F7C3A00858FCD /* PannelTypeSelectPopView.swift */,
+				B41A15762061FAE60057BAA6 /* EmailRSSView.swift */,
 			);
 			path = ApplicationMain;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B41A15772061FAE60057BAA6 /* EmailRSSView.swift in Sources */,
 				B417C2F8205F7C0F00858FCD /* PannelTypeSelectView.swift in Sources */,
 				B417C2EA205E051300858FCD /* ViewController.swift in Sources */,
 				B417C2FA205F7C3A00858FCD /* PannelTypeSelectPopView.swift in Sources */,
