@@ -57,13 +57,13 @@ extension CDSendEmailManager{
         }
         switch result {
         case .cancelled:
-            print("邮件发送已被取消")
+            CDAutoHideMessageHUD.showMessage("邮件发送已被取消")
         case .failed:
-            print("邮件发送失败")
+            CDAutoHideMessageHUD.showMessage("邮件发送失败")
         case .saved:
-            print("邮件已被保存")
+            CDAutoHideMessageHUD.showMessage("邮件已被保存")
         case .sent:
-            print("邮件发送已存入发送队列")
+            CDAutoHideMessageHUD.showMessage("邮件已存入发送队列")
         }
         delegate?.dismiss(animated: true, completion: {
             

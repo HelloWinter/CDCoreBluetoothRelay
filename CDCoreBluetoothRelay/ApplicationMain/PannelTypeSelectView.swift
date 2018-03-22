@@ -60,6 +60,10 @@ class PannelTypeSelectView: UIView {
         self.isResponseDefaultClick = isResponseEvent
     }
     
+    func resetButtonState() -> Void {
+        btnSelectPannelType.isSelected = false
+    }
+    
     @objc private func selectButtonClick(_ sender : UIButton){
         sender.isSelected = !sender.isSelected
         if let closure = self.showOrHideViewClosure {

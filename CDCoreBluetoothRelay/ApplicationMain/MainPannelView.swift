@@ -34,11 +34,7 @@ class MainPannelView: UIImageView {
         let view = PannelTypeSelectView()
         view.setupView(text: arrRelayModel.last!, isResponseEvent: false)
         view.showOrHideViewClosure = {[weak self] (show : Bool) in
-            if show {
-                self?.relayModelSelectPopVew.show()
-            }else{
-                self?.relayModelSelectPopVew.hide()
-            }
+            self?.showRelayModelSelectPopVew(show)
         }
         return view
     }()
@@ -59,11 +55,7 @@ class MainPannelView: UIImageView {
         let view = PannelTypeSelectView()
         view.setupView(text: "Customize", isResponseEvent: true)
         view.showOrHideViewClosure = {[weak self] (show : Bool) in
-            if show {
-                self?.pannelTypeSelectPopVew.show()
-            }else{
-                self?.pannelTypeSelectPopVew.hide()
-            }
+            self?.showPannelTypeSelectPopVew(show)
         }
         view.defaultClickClosure = {
             let emailView = EmailRSSView(viewType: .subscribeEmail)
@@ -112,20 +104,40 @@ class MainPannelView: UIImageView {
         dragImageView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - imgHeight, width: imgWidth, height: imgHeight)
         
         let selectViewWidth : CGFloat = 145
+        relayModelSelectView.frame = CGRect(x: 10, y: 20, width: selectViewWidth, height: 40)
         pannelTypeSelectView.frame = CGRect(x: imgWidth - 10 - selectViewWidth, y: 20, width: selectViewWidth, height: 40)
     }
     
     private func setupSelectView(selectViewType : SelectViewType,selectIndex : Int) {
         if selectViewType == .relayModel {
-            self.relayModelSelectView.setupView(text: arrRelayModel[selectIndex], isResponseEvent: false)
-            if selectIndex == 0 {
-                self.pannelTypeSelectView.isHidden = true
-            }else{
-                self.pannelTypeSelectView.isHidden = false
-            }
-            //////////这里popview也要移除
+            relayModelSelectView.resetButtonState()
+            relayModelSelectView.setupView(text: arrRelayModel[selectIndex], isResponseEvent: false)
+            pannelTypeSelectView.isHidden = selectIndex == 0 ? true : false
         }
-        ////////////////////////////////////////////////////////
+        if selectViewType == .pannelType {
+            pannelTypeSelectView.resetButtonState()
+            pannelTypeSelectView.setupView(text: arrPannelType[selectIndex], isResponseEvent: false)
+        }
+    }
+    
+    private func showRelayModelSelectPopVew(_ show : Bool){
+        pannelTypeSelectPopVew.hide()
+        pannelTypeSelectView.resetButtonState()
+        if show {
+            relayModelSelectPopVew.show(at: CGPoint(x: relayModelSelectView.frame.maxX, y: relayModelSelectView.frame.maxY))
+        }else{
+            relayModelSelectPopVew.hide()
+        }
+    }
+    
+    private func showPannelTypeSelectPopVew(_ show : Bool){
+        relayModelSelectView.resetButtonState()
+        relayModelSelectPopVew.hide()
+        if show {
+            pannelTypeSelectPopVew.show(at: CGPoint(x: pannelTypeSelectView.frame.maxX, y: pannelTypeSelectView.frame.maxY))
+        }else{
+            pannelTypeSelectPopVew.hide()
+        }
     }
 
 }

@@ -39,7 +39,6 @@ class ConfigurePannelView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = false
-        backgroundColor = UIColor(red: 107.0/255.0, green: 107.0/255.0, blue: 107.0/255.0, alpha: 1.0)
         addSubview(dragImageView)
         addSubview(pannelDownView)
         addSubview(pannelPhoneView)

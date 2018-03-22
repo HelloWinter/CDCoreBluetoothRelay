@@ -20,6 +20,7 @@ class BluetoothRelayPannelView: UIScrollView {
     
     private lazy var configurePannel : ConfigurePannelView = {
         let imageV = ConfigurePannelView(frame: .zero)
+        imageV.image = UIImage(named: "configure_pannel_background")
         return imageV
     }()
     

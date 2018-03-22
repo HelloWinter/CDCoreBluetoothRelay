@@ -23,10 +23,20 @@ class PannelTypeSelectPopView: UIView,UITableViewDataSource,UITableViewDelegate 
     
     private let cellIdentifier = "cellIdentifier"
     
+    private let viewWidth : CGFloat = 145
+    
+    private let viewHeight : CGFloat = 250
+    
+//    private lazy var backgroundMaskView : UIView = {
+//        let mask = UIView(frame: CGRect(x: 0, y: 0, width: (UIApplication.shared.keyWindow?.bounds.width)!, height: (UIApplication.shared.keyWindow?.bounds.height)!))
+//        return mask
+//    }()
+    
     private lazy var backgroundImageView : UIImageView = {
         let img = UIImageView()
         img.isUserInteractionEnabled = true
-        img.image = UIImage(named: "main_pannel_popview")
+        let edgeInsets = UIEdgeInsets(top: 40, left: 30, bottom: 40, right: 60)
+        img.image = UIImage(named: "main_pannel_popview_background")?.resizableImage(withCapInsets: edgeInsets, resizingMode: .stretch)
         return img
     }()
     
@@ -45,7 +55,7 @@ class PannelTypeSelectPopView: UIView,UITableViewDataSource,UITableViewDelegate 
     }()
     
     override init(frame: CGRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 145, height: 250))
+        super.init(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
         backgroundColor = UIColor.clear
         addSubview(backgroundImageView)
         backgroundImageView.addSubview(tableView)
@@ -61,17 +71,25 @@ class PannelTypeSelectPopView: UIView,UITableViewDataSource,UITableViewDelegate 
         tableView.frame = CGRect(x: 10, y: 20, width: backgroundImageView.frame.width - 20, height: backgroundImageView.frame.height - 30)
     }
     
-    func show() -> Void {
+    func show(at point : CGPoint) -> Void {
         if let keyWindow = UIApplication.shared.keyWindow {
+//            if backgroundMaskView.superview == nil {
+//                keyWindow.addSubview(backgroundMaskView)
+//            }
             if self.superview == nil {
                 keyWindow.addSubview(self)
             }
-            self.center = CGPoint(x: keyWindow.bounds.width * 0.5, y: keyWindow.bounds.height * 0.5)
+            self.center = CGPoint(x: point.x - viewWidth * 0.5, y: point.y + viewHeight * 0.5)
         }
     }
     
     func hide() -> Void {
-        self.removeFromSuperview()
+//        if backgroundMaskView.superview != nil{
+//            backgroundMaskView.removeFromSuperview()
+//        }
+        if self.superview != nil {
+            self.removeFromSuperview()
+        }
     }
 
 }
@@ -88,6 +106,7 @@ extension PannelTypeSelectPopView{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         cell?.backgroundColor = UIColor.clear
+        cell?.textLabel?.font = UIFont.systemFont(ofSize: 13)
         cell?.textLabel?.textColor = UIColor.white
         cell!.textLabel?.text = arrCellData![indexPath.row]
         return cell!
@@ -103,6 +122,6 @@ extension PannelTypeSelectPopView{
                 closure(self.selectViewType, indexPath.row)
             }
         }
-        
+        hide()
     }
 }
