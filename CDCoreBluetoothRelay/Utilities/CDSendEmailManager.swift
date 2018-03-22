@@ -34,7 +34,7 @@ class CDSendEmailManager: NSObject,MFMailComposeViewControllerDelegate {
     ///   - isHTML: 邮件内容是否是html,默认false
     func sendEmail(recipients : [String],subject : String,bccRecipients : [String]? = nil,ccRecipients : [String]? = nil,messageBody : String,isHTML : Bool = false) -> Void {
         if !MFMailComposeViewController.canSendMail() {
-            print("您还未设置邮件帐户,请设置邮件帐户再来发送电子邮件")
+            CDAutoHideMessageHUD.showMessage("您还未设置邮件帐户,请设置邮件帐户再来发送电子邮件")
             return
         }
         mailComposeVC.setToRecipients(recipients)

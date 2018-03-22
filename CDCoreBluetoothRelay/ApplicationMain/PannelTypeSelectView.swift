@@ -11,15 +11,18 @@ import UIKit
 class PannelTypeSelectView: UIView {
     
     var showOrHideViewClosure : ((Bool) -> Void)?
+    
+    var defaultClickClosure : (() -> Void)?
+    
+    private var isResponseDefaultClick : Bool = false
 
-    private lazy var lbPannelType : UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.backgroundColor = UIColor(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0, alpha: 1.0)
-        label.textColor = UIColor.white
-        label.text = "Customize it"
-        return label
+    private lazy var btnPannelType : UIButton = {
+        let btn = UIButton()
+        btn.titleLabel!.font = UIFont.systemFont(ofSize: 14)
+        btn.backgroundColor = UIColor(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0, alpha: 1.0)
+        btn.setTitleColor(UIColor.white, for: .normal)
+        btn.addTarget(self, action: #selector(defaultClick), for: .touchUpInside)
+        return btn
     }()
     
     private lazy var btnSelectPannelType : UIButton = {
@@ -35,7 +38,7 @@ class PannelTypeSelectView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(lbPannelType)
+        addSubview(btnPannelType)
         addSubview(btnSelectPannelType)
     }
     
@@ -46,16 +49,29 @@ class PannelTypeSelectView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         let btnWidth : CGFloat = 45
-        lbPannelType.frame = CGRect(x: 0, y: 0, width: self.frame.width - btnWidth, height: self.frame.height)
-        btnSelectPannelType.frame = CGRect(x: lbPannelType.frame.maxX, y: 0, width: btnWidth, height: self.frame.height)
+        btnPannelType.frame = CGRect(x: 0, y: 0, width: self.frame.width - btnWidth, height: self.frame.height)
+        btnSelectPannelType.frame = CGRect(x: btnPannelType.frame.maxX, y: 0, width: btnWidth, height: self.frame.height)
         layer.cornerRadius = 4
         layer.masksToBounds = true
+    }
+    
+    func setupView(text : String,isResponseEvent : Bool) -> Void {
+        btnPannelType.setTitle(text, for: .normal)
+        self.isResponseDefaultClick = isResponseEvent
     }
     
     @objc private func selectButtonClick(_ sender : UIButton){
         sender.isSelected = !sender.isSelected
         if let closure = self.showOrHideViewClosure {
             closure(sender.isSelected)
+        }
+    }
+    
+    @objc private func defaultClick(){
+        if isResponseDefaultClick {
+            if let closure = self.defaultClickClosure {
+                closure()
+            }
         }
     }
 }

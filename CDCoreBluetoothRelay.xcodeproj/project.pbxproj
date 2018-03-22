@@ -21,6 +21,8 @@
 		B417C2FA205F7C3A00858FCD /* PannelTypeSelectPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F9205F7C3A00858FCD /* PannelTypeSelectPopView.swift */; };
 		B41A15752060E1060057BAA6 /* DataTransformUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B41A15742060E1060057BAA6 /* DataTransformUtilities.m */; };
 		B41A15772061FAE60057BAA6 /* EmailRSSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41A15762061FAE60057BAA6 /* EmailRSSView.swift */; };
+		B41A15E720634ED10057BAA6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41A15E620634ED10057BAA6 /* StringExtension.swift */; };
+		B41A15ED20635CD00057BAA6 /* CDAutoHideMessageHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B41A15EB20635CD00057BAA6 /* CDAutoHideMessageHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,9 @@
 		B41A15732060E1060057BAA6 /* DataTransformUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTransformUtilities.h; sourceTree = "<group>"; };
 		B41A15742060E1060057BAA6 /* DataTransformUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataTransformUtilities.m; sourceTree = "<group>"; };
 		B41A15762061FAE60057BAA6 /* EmailRSSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRSSView.swift; sourceTree = "<group>"; };
+		B41A15E620634ED10057BAA6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		B41A15EB20635CD00057BAA6 /* CDAutoHideMessageHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAutoHideMessageHUD.m; sourceTree = "<group>"; };
+		B41A15EC20635CD00057BAA6 /* CDAutoHideMessageHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAutoHideMessageHUD.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,12 +116,23 @@
 		B417C2EE205E071A00858FCD /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B41A15EA20635CD00057BAA6 /* CDAutoHideMessageHUD */,
+				B41A15E620634ED10057BAA6 /* StringExtension.swift */,
 				B417C2EF205E077000858FCD /* CDSendEmailManager.swift */,
 				B41A15732060E1060057BAA6 /* DataTransformUtilities.h */,
 				B41A15742060E1060057BAA6 /* DataTransformUtilities.m */,
 				B41A15722060E1060057BAA6 /* CDCoreBluetoothRelay-Bridging-Header.h */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		B41A15EA20635CD00057BAA6 /* CDAutoHideMessageHUD */ = {
+			isa = PBXGroup;
+			children = (
+				B41A15EB20635CD00057BAA6 /* CDAutoHideMessageHUD.m */,
+				B41A15EC20635CD00057BAA6 /* CDAutoHideMessageHUD.h */,
+			);
+			path = CDAutoHideMessageHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,10 +212,12 @@
 				B417C2F8205F7C0F00858FCD /* PannelTypeSelectView.swift in Sources */,
 				B417C2EA205E051300858FCD /* ViewController.swift in Sources */,
 				B417C2FA205F7C3A00858FCD /* PannelTypeSelectPopView.swift in Sources */,
+				B41A15ED20635CD00057BAA6 /* CDAutoHideMessageHUD.m in Sources */,
 				B410306D205D3965002B6579 /* AppDelegate.swift in Sources */,
 				B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */,
 				B41A15752060E1060057BAA6 /* DataTransformUtilities.m in Sources */,
 				B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */,
+				B41A15E720634ED10057BAA6 /* StringExtension.swift in Sources */,
 				B417C2F6205E711500858FCD /* ConfigurePannelView.swift in Sources */,
 				B417C2F0205E077000858FCD /* CDSendEmailManager.swift in Sources */,
 				B417C2F4205E70E700858FCD /* MainPannelView.swift in Sources */,

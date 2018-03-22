@@ -8,7 +8,18 @@
 
 import UIKit
 
+enum SelectViewType {
+    case relayModel
+    case pannelType
+}
+
 class PannelTypeSelectPopView: UIView,UITableViewDataSource,UITableViewDelegate {
+    
+    var selectCousure : ((_ selectViewType : SelectViewType,_ selectIndex : Int) -> Void)?
+    
+    var arrCellData : [String]?
+    
+    var selectViewType : SelectViewType = .relayModel
     
     private let cellIdentifier = "cellIdentifier"
     
@@ -68,19 +79,30 @@ class PannelTypeSelectPopView: UIView,UITableViewDataSource,UITableViewDelegate 
 extension PannelTypeSelectPopView{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        guard let arr = arrCellData else {
+            return 0
+        }
+        return arr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         cell?.backgroundColor = UIColor.clear
         cell?.textLabel?.textColor = UIColor.white
-        cell!.textLabel?.text = "RP-5"
+        cell!.textLabel?.text = arrCellData![indexPath.row]
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if self.selectViewType == .pannelType && indexPath.row == arrCellData!.count - 1{
+            let emailView = EmailRSSView(viewType: .customizeBoat)
+            emailView.show()
+        }else{
+            if let closure = self.selectCousure {
+                closure(self.selectViewType, indexPath.row)
+            }
+        }
         
     }
 }

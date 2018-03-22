@@ -28,30 +28,67 @@ class MainPannelView: UIImageView {
         return imgV
     }()
     
-    private lazy var pannelTypeSelectView : PannelTypeSelectView = {
+    private let arrRelayModel = ["RP-5","RP-8"]
+    
+    private lazy var relayModelSelectView : PannelTypeSelectView = {
         let view = PannelTypeSelectView()
+        view.setupView(text: arrRelayModel.last!, isResponseEvent: false)
         view.showOrHideViewClosure = {[weak self] (show : Bool) in
             if show {
-                self?.selectPopVew.show()
+                self?.relayModelSelectPopVew.show()
             }else{
-                self?.selectPopVew.hide()
+                self?.relayModelSelectPopVew.hide()
             }
         }
         return view
     }()
     
-    private lazy var selectPopVew : PannelTypeSelectPopView = {
+    private lazy var relayModelSelectPopVew : PannelTypeSelectPopView = {
         let popView = PannelTypeSelectPopView()
+        popView.arrCellData = arrRelayModel
+        popView.selectViewType = SelectViewType.relayModel
+        popView.selectCousure = {[weak self] (selectViewType : SelectViewType,selectIndex : Int) in
+            self?.setupSelectView(selectViewType: selectViewType, selectIndex: selectIndex)
+        }
+        return popView
+    }()
+    
+    private let arrPannelType = ["Gator Tail","Smoker Craft","Tracker","Xpress","Other"]
+    
+    private lazy var pannelTypeSelectView : PannelTypeSelectView = {
+        let view = PannelTypeSelectView()
+        view.setupView(text: "Customize", isResponseEvent: true)
+        view.showOrHideViewClosure = {[weak self] (show : Bool) in
+            if show {
+                self?.pannelTypeSelectPopVew.show()
+            }else{
+                self?.pannelTypeSelectPopVew.hide()
+            }
+        }
+        view.defaultClickClosure = {
+            let emailView = EmailRSSView(viewType: .subscribeEmail)
+            emailView.show()
+        }
+        return view
+    }()
+    
+    private lazy var pannelTypeSelectPopVew : PannelTypeSelectPopView = {
+        let popView = PannelTypeSelectPopView()
+        popView.arrCellData = arrPannelType
+        popView.selectViewType = SelectViewType.pannelType
+        popView.selectCousure = {[weak self] (selectViewType : SelectViewType,selectIndex : Int) in
+            self?.setupSelectView(selectViewType: selectViewType, selectIndex: selectIndex)
+        }
         return popView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true
-//        backgroundColor = UIColor(red: 187.0/255.0, green: 187.0/255.0, blue: 187.0/255.0, alpha: 1.0)
         addSubview(pannelUpView)
         addSubview(pannelDownView)
         addSubview(dragImageView)
+        addSubview(relayModelSelectView)
         addSubview(pannelTypeSelectView)
     }
     
@@ -76,6 +113,19 @@ class MainPannelView: UIImageView {
         
         let selectViewWidth : CGFloat = 145
         pannelTypeSelectView.frame = CGRect(x: imgWidth - 10 - selectViewWidth, y: 20, width: selectViewWidth, height: 40)
+    }
+    
+    private func setupSelectView(selectViewType : SelectViewType,selectIndex : Int) {
+        if selectViewType == .relayModel {
+            self.relayModelSelectView.setupView(text: arrRelayModel[selectIndex], isResponseEvent: false)
+            if selectIndex == 0 {
+                self.pannelTypeSelectView.isHidden = true
+            }else{
+                self.pannelTypeSelectView.isHidden = false
+            }
+            //////////这里popview也要移除
+        }
+        ////////////////////////////////////////////////////////
     }
 
 }

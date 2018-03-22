@@ -9,9 +9,9 @@
 import UIKit
 import CoreBluetooth
 
-private let ServiceUUID = "FFE0"//"ffe0"
-private let WriteCharacteristicUUID = "FFE1"//"ffe1"
-private let NotifyCharacteristicUUID = "FFE1"//"ffe1"
+private let ServiceUUID = "FFE0"
+private let WriteCharacteristicUUID = "FFE1"
+private let NotifyCharacteristicUUID = "FFE1"
 
 class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
     
@@ -32,7 +32,6 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     
     func writeData() -> Void {
         let data = dataFrom(hexString: "5501020001D9")
-//        let data = "1101".data(using: String.Encoding.utf8)
         self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
     }
     
@@ -166,11 +165,9 @@ extension CDCoreBluetoothTool {
         }
         print("读取外设数据 characteristic.uuid.uuidString : \(characteristic.uuid.uuidString)")
         if characteristic.uuid.uuidString == WriteCharacteristicUUID {
-            //characteristic.value就是你要的数据
             let data = characteristic.value
-            //String(data: data!, encoding: String.Encoding.utf8)
             let receiveStr = DataTransformUtilities.hexString(from: data)
-            print("receiveStr : \(receiveStr)")
+            print("receiveStr : \(receiveStr!)")
         }
     }
     //中心读取外设实时数据
@@ -180,7 +177,6 @@ extension CDCoreBluetoothTool {
             print("读取订阅外设实时数据 ： \(error.localizedDescription)")
             return
         }
-        
     }
     //中心向外设写数据是否成功
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {

@@ -28,7 +28,7 @@ class EmailRSSView: UIView {
         if viewType == .customizeBoat {
             label.text = "Please tell us the brand of your boat so we can better improve our software feature and provide a more customized experience for you in the future!"
         }else{
-            let title = "SUBSCRIBE EMAIL"
+            let title = "Enter Email"
             let content = "\(title)\n\nto enable the custom features"
             let mutableAttrStr = NSMutableAttributedString(string: content)
             mutableAttrStr.addAttributes([NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 25)], range: (content as NSString).range(of: title))
@@ -54,6 +54,11 @@ class EmailRSSView: UIView {
             btn.setTitle("Submit", for: .normal)
         }
         return btn
+    }()
+    
+    private lazy var sendEmailMgr : CDSendEmailManager = {
+        let mgr = CDSendEmailManager()
+        return mgr
     }()
     
     init(viewType : EmailRSSViewType) {
@@ -112,6 +117,22 @@ class EmailRSSView: UIView {
     }
 
     @objc private func btnSendClick(){
-        
+        if self.viewType == .customizeBoat {
+            if let text = textfield.text{
+                print("发送邮件 : \(text)")
+                sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "", messageBody: text)
+            }
+        }
+        if self.viewType == .subscribeEmail {
+            if let text = textfield.text {
+                if text.isEmail() {
+                    print("发送邮件 : \(text)")
+                    sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "", messageBody: text)
+                }else{
+                    CDAutoHideMessageHUD.showMessage("邮箱格式错误")
+                }
+                
+            }
+        }
     }
 }
