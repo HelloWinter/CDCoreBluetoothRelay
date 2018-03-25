@@ -8,14 +8,26 @@
 
 import UIKit
 import CoreBluetooth
-
+///服务的UUID
 private let ServiceUUID = "FFE0"
-private let WriteCharacteristicUUID = "FFE1"
-private let NotifyCharacteristicUUID = "FFE1"
+///Write,Notify特征的UUID
+private let CharacteristicUUID = "FFE1"
+///存储最新连接的蓝牙外设UUID的UUIDKey
+private let kBluetoothPeripheralUUIDKey = "kBluetoothPeripheralUUIDKey"
+///发现新的蓝牙外设通知
+let kDiscoverBluetoothPeripheral = "DiscoverBluetoothPeripheral"
+///外设连接状态改变通知
+let kPeripheralConnectStateChanged = "kPeripheralConnectStateChanged"
+///收到外设发送的数据
+let kReceivedValue = "kReceivedValue"
 
 class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
     
     static let shared : CDCoreBluetoothTool = CDCoreBluetoothTool()
+    
+    var discoverPeripheralUnconnectClosure : (() -> Void)?
+    
+    var peripheralConnectState : Bool = false
     
     private var cMgr : CBCentralManager?
     
@@ -30,37 +42,45 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     
     private var notifyCharteristic : CBCharacteristic?
     
-    func writeData() -> Void {
-        let data = dataFrom(hexString: "5501020001D9")
-        self.peripheral?.writeValue(data!, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
-    }
+    private(set) var arrPeri : [CBPeripheral] = Array()
     
-    private func dataFrom(hexString : String) -> Data? {
-        if hexString.count == 0 {
-            return nil
-        }
-        var mutableData = Data.init(capacity: 8)
-        
-        var range : NSRange
-        
-        if hexString.count % 2 == 0 {
-            range = NSRange(location: 0, length: 2)
-        }else{
-            range = NSRange(location: 0, length: 1)
-        }
-        
-        for _ in (range.location..<hexString.count).filter({($0 - range.location) % 2 == 0}) {
-            var anInt : UInt32 = 0
-            let hexCharStr = (hexString as NSString).substring(with: range)
-            let scanner = Scanner(string: hexCharStr)
-            scanner.scanHexInt32(&anInt)
-            mutableData.append(Data.init(bytes: &anInt, count: 1))
-            range.location += range.length;
-            range.length = 2;
-        }
-        return mutableData
-    }
+    private var arrPeriUUID : [String] = Array()
     
+    private var peripheralConnectRetry = 0
+    ///获取所有按钮初始状态
+    func getAllButtonState() -> Void {
+        sendToPeripheralWith(hexString: "550102F5F59F")
+        
+//        sendToPeripheralWith(hexString: "5501020001d9")//测试
+//        sendToPeripheralWith(hexString: "55010201011d")//测试
+//        sendToPeripheralWith(hexString: "5500020002b4")//测试
+//        sendToPeripheralWith(hexString: "550002000469")//测试
+//        sendToPeripheralWith(hexString: "5500020008ca")//测试
+//        sendToPeripheralWith(hexString: "550002001095")//测试
+//        sendToPeripheralWith(hexString: "55000200202b")//测试
+//        sendToPeripheralWith(hexString: "5500020003ea")//测试
+//        sendToPeripheralWith(hexString: "550002000008")//测试
+    }
+    ///向外设发送16进制字符串
+    func sendToPeripheralWith(hexString : String?) {
+        if let hexStr = hexString,let data = dataFrom(hexString: hexStr) {
+            self.peripheral?.writeValue(data, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
+        }
+    }
+    ///连接到外设
+    func connectTo(peripheral : CBPeripheral) -> Void {
+        //保存连接的外设
+        self.peripheral = peripheral
+        cMgr!.connect(peripheral, options: nil)
+    }
+    ///扫描外设
+    func scanPeripheral() -> Void {
+        cMgr!.scanForPeripherals(withServices: nil, options: nil)
+    }
+    ///停止扫描
+    func stopScanPeripheral() -> Void {
+        cMgr!.stopScan()
+    }
 }
 
 extension CDCoreBluetoothTool {
@@ -70,15 +90,13 @@ extension CDCoreBluetoothTool {
             print("蓝牙未开启")
         case .poweredOn:
             print("蓝牙已开启")
-            ///扫描外设
-            cMgr!.scanForPeripherals(withServices: nil, options: nil)
-            print("\(cMgr!.isScanning)")
+            scanPeripheral()
         case .resetting:
-            print("正在重启")
+            CDAutoHideMessageHUD.showMessage("蓝牙正在重启")
         case .unauthorized:
-            print("未授权")
+            CDAutoHideMessageHUD.showMessage("蓝牙未授权")
         case .unknown:
-            print("状态未知")
+            CDAutoHideMessageHUD.showMessage("蓝牙状态未知")
         case .unsupported:
             print("不支持蓝牙")
         }
@@ -86,53 +104,79 @@ extension CDCoreBluetoothTool {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
-        if let name = peripheral.name, name.contains("Default") {
-            self.peripheral = peripheral
-            cMgr!.connect(peripheral, options: nil)
-            cMgr!.stopScan()
+        if peripheral.name != nil {
+            let uuidString = peripheral.identifier.uuidString
+            //保存外设
+            if !arrPeriUUID.contains(uuidString) {
+                arrPeri.append(peripheral)
+                arrPeriUUID.append(uuidString)
+                //通知更新外设列表显示
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDiscoverBluetoothPeripheral), object: nil)
+            }
+            //已连接过的设备，自动连接
+            if let uuid = UserDefaults.standard.object(forKey: kBluetoothPeripheralUUIDKey) as? String, uuid == peripheral.identifier.uuidString {
+                connectTo(peripheral: peripheral)
+            }else{//搜到设备，但未连接,需要手动连接
+                
+                ///这里有问题
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    if let closure = self.discoverPeripheralUnconnectClosure {
+                        closure()
+                    }
+                })
+            }
         }
-//        if peripheral.identifier.uuidString == ServiceUUID {
-//
-//        }
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("外设连接成功")
+        //停止扫描
+        stopScanPeripheral()
         self.peripheral?.delegate = self
         // services:传入nil代表扫描所有服务
-        self.peripheral?.discoverServices(nil)//[CBUUID(string: ServiceUUID)]
+        self.peripheral?.discoverServices(nil)
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print("外设连接失败")
-        cMgr!.connect(peripheral, options: nil)
+        CDAutoHideMessageHUD.showMessage("外设连接失败")
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         print("外设断开连接")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: false)
+        peripheralConnectState = false
+        //外设断开连接重试次数
+        if peripheralConnectRetry < 1 {
+            connectTo(peripheral: peripheral)
+            peripheralConnectRetry += 1
+        }
     }
 }
 
 extension CDCoreBluetoothTool {
     
-    // 外设端发现了服务时触发
+    /// 修改服务触发
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+        // 重新扫描
+        self.peripheral?.discoverServices(nil)
+    }
+    
+    /// 发现服务时触发
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        print("外设发现了服务")
+        print("发现服务")
         if let error = error {
             print(error.localizedDescription)
             return
         }
-        
         for service in peripheral.services! {
-            print("service.uuid.uuidString : \(service.uuid.uuidString)")
             if service.uuid.uuidString == ServiceUUID {
                 print("找到了serviceUUID : \(service.uuid.uuidString)")
                 //根据服务扫描特征,传nil代表扫描所有特征
-                peripheral.discoverCharacteristics(nil, for: service)//[CBUUID(string: WriteCharacteristicUUID)]
+                peripheral.discoverCharacteristics(nil, for: service)
             }
         }
-        
     }
+    
     //从服务获取特征
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         print("发现特征")
@@ -141,41 +185,59 @@ extension CDCoreBluetoothTool {
             return
         }
         for characteristic in service.characteristics! {
-            print("characteristic.uuid.uuidString : \(characteristic.uuid.uuidString)")
-            
-            if characteristic.uuid.uuidString == NotifyCharacteristicUUID {
-                self.notifyCharteristic=characteristic
-                peripheral.setNotifyValue(true, for: self.notifyCharteristic!)
+            if characteristic.uuid.uuidString == CharacteristicUUID {
+                if (characteristic.properties.rawValue & CBCharacteristicProperties.write.rawValue) != 0 {
+                    self.characteristic = characteristic
+                }
+                if (characteristic.properties.rawValue & CBCharacteristicProperties.notify.rawValue) != 0 {
+                    self.notifyCharteristic = characteristic
+                    peripheral.setNotifyValue(true, for: self.notifyCharteristic!)
+                }
             }
-
-            if characteristic.uuid.uuidString == WriteCharacteristicUUID {
-                self.characteristic = characteristic
-//                peripheral.readValue(for: self.notifyCharteristic!)
-            }
-            
         }
-        
+        if self.characteristic != nil && self.notifyCharteristic != nil {
+            //外设连接并扫描特征成功
+            //保存uuid
+            UserDefaults.standard.set(peripheral.identifier.uuidString, forKey: kBluetoothPeripheralUUIDKey)
+            ///通知可以通信了
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: true)
+            peripheralConnectState = true
+            peripheralConnectRetry = 0
+            getAllButtonState()
+        }
     }
-    //读数据
+    /// 外设可以发送数据给中心设备，中心设备也可以从外设读取数据，当发生这些事情的时候，就会回调这个方法。通过特征中的value属性拿到原始数据，然后根据需求解析数据。
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        print("读取外设数据")
+        print("读取外设数据调用")
         if let error = error {
             print("读取外设数据错误 ： \(error.localizedDescription)")
             return
         }
-        print("读取外设数据 characteristic.uuid.uuidString : \(characteristic.uuid.uuidString)")
-        if characteristic.uuid.uuidString == WriteCharacteristicUUID {
-            let data = characteristic.value
-            let receiveStr = DataTransformUtilities.hexString(from: data)
-            print("receiveStr : \(receiveStr!)")
+        if characteristic.uuid.uuidString == CharacteristicUUID {
+            if let data = characteristic.value, let receiveStr = hexStringFrom(data: data), receiveStr.hasPrefix("5500") {
+                print("读取外设数据 receiveStr : \(receiveStr)")
+                var subData = data
+                subData.remove(at: (data.count-1))
+                //校验crc8
+                if let crc = calculateCRC8(data: subData),receiveStr.hasSuffix(String(format: "%x", crc)) {
+                    print(String(format: "CRC :%x", crc))
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: kReceivedValue), object: subData)
+                }
+            }
+            
         }
     }
-    //中心读取外设实时数据
+    //订阅状态发生改变时调用改变
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        print("读取订阅外设实时数据")
+        print("订阅状态发生改变")
         if let error = error {
-            print("读取订阅外设实时数据 ： \(error.localizedDescription)")
+            print("订阅失败 ： \(error.localizedDescription)")
             return
+        }
+        if (characteristic.isNotifying) {
+            print("订阅成功")
+        } else {
+            print("取消订阅")
         }
     }
     //中心向外设写数据是否成功
@@ -185,5 +247,6 @@ extension CDCoreBluetoothTool {
             print(error.localizedDescription)
             return
         }
+        print("向外设写数据成功")
     }
 }

@@ -16,15 +16,15 @@ class MainPannelView: UIImageView {
         return imgV
     }()
     
-    private lazy var pannelUpView : UIImageView = {
-        let imgV = UIImageView()
+    private lazy var pannelUpView : MainPannelUpView = {
+        let imgV = MainPannelUpView(frame: .zero)
         imgV.image = UIImage(named: "main_pannel_up")
         return imgV
     }()
     
-    private lazy var pannelDownView : UIImageView = {
-        let imgV = UIImageView()
-        imgV.image = UIImage(named: "main_pannel_down")
+    private lazy var pannelDownView : MainPannelDownView = {
+        let imgV = MainPannelDownView(frame: .zero)
+        imgV.image = UIImage(named: "main_pannel_down_blank")
         return imgV
     }()
     
@@ -90,22 +90,21 @@ class MainPannelView: UIImageView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let imgWidth = UIScreen.main.bounds.width
-        let imgHeight = imgWidth * 140.0 / 718
+        let screen_Width = UIScreen.main.bounds.width
+        let imgHeight = screen_Width * 140.0 / 718
         
-        let pannelUpWidth = imgWidth-20
-        let pannelUpHeight = pannelUpWidth * 300.0 / 553
-        pannelUpView.frame = CGRect(x: 10, y: 80, width: pannelUpWidth, height: pannelUpHeight)
+        let pannelUpHeight = screen_Width * 300.0 / 553
+        pannelUpView.frame = CGRect(x:0, y: 80, width: screen_Width, height: pannelUpHeight)
         
-        let pannelDownWidth = imgWidth-20
+        let pannelDownWidth = screen_Width-20
         let pannelDownHeight = pannelDownWidth * 1360.0 / 1553
         pannelDownView.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - pannelDownHeight, width: pannelDownWidth, height: pannelDownHeight)
         
-        dragImageView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - imgHeight, width: imgWidth, height: imgHeight)
+        dragImageView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - imgHeight, width: screen_Width, height: imgHeight)
         
         let selectViewWidth : CGFloat = 145
         relayModelSelectView.frame = CGRect(x: 10, y: 20, width: selectViewWidth, height: 40)
-        pannelTypeSelectView.frame = CGRect(x: imgWidth - 10 - selectViewWidth, y: 20, width: selectViewWidth, height: 40)
+        pannelTypeSelectView.frame = CGRect(x: screen_Width - 10 - selectViewWidth, y: 20, width: selectViewWidth, height: 40)
     }
     
     private func setupSelectView(selectViewType : SelectViewType,selectIndex : Int) {

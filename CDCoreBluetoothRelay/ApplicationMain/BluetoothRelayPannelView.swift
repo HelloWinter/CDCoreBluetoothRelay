@@ -9,6 +9,10 @@
 import UIKit
 
 class BluetoothRelayPannelView: UIScrollView {
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
+    }
 
     private weak var bluetoothTool : CDCoreBluetoothTool?
     
@@ -32,7 +36,13 @@ class BluetoothRelayPannelView: UIScrollView {
         bounces = false
         addSubview(mainPannel)
         addSubview(configurePannel)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(peripheralConnectStateChanged), name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
+        
         bluetoothTool = CDCoreBluetoothTool.shared
+        bluetoothTool!.discoverPeripheralUnconnectClosure = {[weak self] in
+            self?.switchPannel(state: false)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,9 +58,21 @@ class BluetoothRelayPannelView: UIScrollView {
         self.contentSize = CGSize(width: panelWidth, height: panelHeight * 2)
     }
     
-    //TEST
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        bluetoothTool!.writeData()
-        
+    @objc private func peripheralConnectStateChanged(noti : Notification) {
+        if let state = noti.object as? Bool {
+            switchPannel(state: state)
+        }
+    }
+    
+    @objc private func switchPannel(state : Bool){
+        if state {
+            if self.contentOffset.y != 0 {
+                self.scrollRectToVisible(CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), animated: true)
+            }
+        }else{
+            if self.contentOffset.y == 0 {
+                self.scrollRectToVisible(CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), animated: true)
+            }
+        }
     }
 }

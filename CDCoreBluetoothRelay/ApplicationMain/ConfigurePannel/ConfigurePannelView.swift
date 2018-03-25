@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import CoreBluetooth
 
 class ConfigurePannelView: UIImageView {
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
+    }
 
     private lazy var dragImageView : UIImageView = {
         let imgV = UIImageView()
@@ -18,31 +23,41 @@ class ConfigurePannelView: UIImageView {
     
     private lazy var pannelDownView : UIImageView = {
         let imgV = UIImageView()
-        imgV.image = UIImage(named: "main_pannel_down")
+        imgV.image = UIImage(named: "main_pannel_down_blank")
         return imgV
     }()
     
     private lazy var pannelPhoneView : UIImageView = {
         let imgV = UIImageView()
         imgV.image = UIImage(named: "connect_phone_disconnected")
-        imgV.highlightedImage = UIImage(named: "connect_phone_connected")
+        imgV.highlightedImage = UIImage(named: "connect_phone_blue")
         return imgV
     }()
     
     private lazy var btnConnect : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named : "btn_disconnect"), for: .normal)
-        button.setImage(UIImage(named : "btn_disconnect"), for: .selected)
+        button.setImage(UIImage(named : "btn_connect_blue"), for: .selected)
+        button.addTarget(self, action: #selector(btnConnectClick), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var popView : BluetoothPeripheralPopTableView = {
+        let popView = BluetoothPeripheralPopTableView(frame: .zero)
+        popView.selectCousure = {[weak self] (peripheral : CBPeripheral) in
+            CDCoreBluetoothTool.shared.connectTo(peripheral: peripheral)
+        }
+        return popView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        isUserInteractionEnabled = false
+        isUserInteractionEnabled = true
         addSubview(dragImageView)
         addSubview(pannelDownView)
         addSubview(pannelPhoneView)
         addSubview(btnConnect)
+        NotificationCenter.default.addObserver(self, selector: #selector(peripheralConnectStateChanged), name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,11 +72,29 @@ class ConfigurePannelView: UIImageView {
         let pannelDownWidth = imgWidth-20
         let pannelDownHeight = pannelDownWidth * 1360.0 / 1553
         pannelDownView.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - pannelDownHeight + 40, width: pannelDownWidth, height: pannelDownHeight)
-        
         pannelPhoneView.bounds = CGRect(x: 0, y: 0, width: 80, height: 208 * 0.8)//100*208
         pannelPhoneView.center = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.5 - 100)
-        
         btnConnect.frame = CGRect(x: pannelPhoneView.frame.maxX + 30, y: pannelPhoneView.frame.maxY, width: 48, height: 48)
     }
-
+    
+    @objc private func btnConnectClick() {
+//        if CDCoreBluetoothTool.shared.peripheralConnectState {
+//
+//        }else{
+            popView.arrCellData = CDCoreBluetoothTool.shared.arrPeri
+            popView.show()
+//        }
+    }
+    
+    @objc private func peripheralConnectStateChanged(noti : Notification) {
+        if let state = noti.object as? Bool {
+            if state {
+                pannelPhoneView.isHighlighted = true
+                btnConnect.isSelected = true
+            }else{
+                pannelPhoneView.isHighlighted = false
+                btnConnect.isSelected = false
+            }
+        }
+    }
 }
