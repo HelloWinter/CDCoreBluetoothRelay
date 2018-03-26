@@ -69,7 +69,7 @@ class ViewController: UIViewController {
             }
         }else{
             if scrollView.contentOffset.y == 0 {
-                CDAutoHideMessageHUD.showMessage("Please connect the bluetooth peripheral manually.")
+                CDAutoHideMessageHUD.showMessage(NSLocalizedString("ConnectManually", comment: ""))
                 scrollView.scrollRectToVisible(CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: ScreenHeight), animated: true)
             }
         }

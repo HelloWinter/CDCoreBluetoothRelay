@@ -147,7 +147,7 @@ class EmailRSSView: UIView {
                     print("发送邮件 : \(text)")
                     sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "Subscribe Email", messageBody: text)
                 }else{
-                    CDAutoHideMessageHUD.showMessage("Email format error")
+                    CDAutoHideMessageHUD.showMessage(NSLocalizedString("EmailFormatError", comment: ""))
                 }
                 
             }

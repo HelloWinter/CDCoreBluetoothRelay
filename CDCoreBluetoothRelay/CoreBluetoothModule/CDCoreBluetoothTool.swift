@@ -87,18 +87,18 @@ extension CDCoreBluetoothTool {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
         case .poweredOff:
-            CDAutoHideMessageHUD.showMessage("Bluetooth is poweredOff，please open bluetooth. if you have already opened it in \"Settings\",please close bluetooth in \"Control Center\",then open it again.")
+            CDAutoHideMessageHUD.showMessage(NSLocalizedString("BluetoothPowerOff", comment: ""))
         case .poweredOn:
             print("蓝牙已开启")
             scanPeripheral()
         case .resetting:
-            CDAutoHideMessageHUD.showMessage("Bluetooth is resetting")
+            CDAutoHideMessageHUD.showMessage(NSLocalizedString("BluetoothResetting", comment: ""))
         case .unauthorized:
-            CDAutoHideMessageHUD.showMessage("Bluetooth is unauthorized")
+            CDAutoHideMessageHUD.showMessage(NSLocalizedString("BluetoothUnauthorized", comment: ""))
         case .unknown:
-            CDAutoHideMessageHUD.showMessage("Bluetooth state is unknown")
+            CDAutoHideMessageHUD.showMessage(NSLocalizedString("BluetoothUnknown", comment: ""))
         case .unsupported:
-            CDAutoHideMessageHUD.showMessage("Bluetooth is Unsupported ")
+            CDAutoHideMessageHUD.showMessage(NSLocalizedString("BluetoothUnsupport", comment: ""))
         }
     }
     
@@ -139,7 +139,7 @@ extension CDCoreBluetoothTool {
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        CDAutoHideMessageHUD.showMessage("Failed to connect peripheral")
+        CDAutoHideMessageHUD.showMessage(NSLocalizedString("FailConnect", comment: ""))
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {

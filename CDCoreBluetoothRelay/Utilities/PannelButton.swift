@@ -67,7 +67,7 @@ class PannelButton: UIButton {
         case .btn_NAV:
             statusCode.append("07")//预留
         default:
-            CDAutoHideMessageHUD.showMessage("Button function Unknown")
+            CDAutoHideMessageHUD.showMessage(NSLocalizedString("ButtonFunctionUnknown", comment: ""))
             break
         }
         return statusCode

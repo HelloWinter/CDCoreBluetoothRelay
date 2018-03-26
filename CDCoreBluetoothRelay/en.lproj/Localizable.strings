@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  CDCoreBluetoothRelay
+
+  Created by dong cheng on 2018/3/26.
+  Copyright © 2018年 dong cheng. All rights reserved.
+*/
+"ConnectManually" = "Please connect the bluetooth peripheral manually.";
+"EmailFormatError" = "Email format error";
+"BluetoothPowerOff" = "Bluetooth is poweredOff，please open bluetooth. if you have already opened it in \"Settings\",please close bluetooth in \"Control Center\",then open it again.";
+"BluetoothResetting" = "Bluetooth is resetting";
+"BluetoothUnauthorized" = "Bluetooth is unauthorized";
+"BluetoothUnknown" = "Bluetooth state is unknown";
+"BluetoothUnsupport" = "Bluetooth is Unsupported";
+"FailConnect" = "Failed to connect peripheral";
+"SetAccount" = "You have not set up an email account yet. Please set your email account to send email.";
+"EmailCancelled" = "Mail delivery has been cancelled.";
+"EmailFailed" = "Email failed";
+"EmailSaved" = "The mail has been saved.";
+"EmailSent" = "MailComposeResult sent";
+"ButtonFunctionUnknown" = "Button function Unknown";

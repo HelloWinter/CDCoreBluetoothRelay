@@ -90,7 +90,7 @@ func hexStringFrom(data : Data) -> String? {
     }
     return mutableString
 }
-
+//计算CRC8校验码
 func calculateCRC8(data : Data?) -> UInt8? {
     guard let data = data else {
         return nil
@@ -120,5 +120,5 @@ func extractButtonStatus(byte : UInt8) -> [Bool] {
     let bit2 = ((byte >> 2) & 0x1 == 1)
     let bit1 = ((byte >> 1) & 0x1 == 1)
     let bit0 = ((byte >> 0) & 0x1 == 1)
-    return [bit7,bit6,bit5,bit4,bit3,bit2,bit1,bit0];
+    return [bit7,bit6,bit5,bit4,bit3,bit2,bit1,bit0]
 }

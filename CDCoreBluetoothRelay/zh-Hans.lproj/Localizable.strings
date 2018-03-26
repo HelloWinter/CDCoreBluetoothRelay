@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  CDCoreBluetoothRelay
+
+  Created by dong cheng on 2018/3/26.
+  Copyright © 2018年 dong cheng. All rights reserved.
+*/
+
+"ConnectManually" = "请手动连接蓝牙设备";
+"EmailFormatError" = "邮箱格式错误";
+"BluetoothPowerOff" = "蓝牙未开启，请打开蓝牙，如果您在\"设置\"里面已经开启蓝牙，请在\"控制中心\"里将蓝牙关闭，然后再打开";
+"BluetoothResetting" = "蓝牙正在重启";
+"BluetoothUnauthorized" = "蓝牙未授权";
+"BluetoothUnknown" = "蓝牙状态未知";
+"BluetoothUnsupport" = "不支持蓝牙";
+"FailConnect" = "外设连接失败";
+"SetAccount" = "您还未设置邮件帐户,请设置邮件帐户再来发送电子邮件";
+"EmailCancelled" = "邮件发送已被取消";
+"EmailFailed" = "邮件发送失败";
+"EmailSaved" = "邮件已被保存";
+"EmailSent" = "邮件已发送";
+"ButtonFunctionUnknown" = "按钮功能未知";

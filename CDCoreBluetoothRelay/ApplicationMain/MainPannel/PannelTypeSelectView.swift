@@ -20,7 +20,6 @@ class PannelTypeSelectView: UIView {
         let btn = UIButton()
         btn.titleLabel!.font = UIFont.systemFont(ofSize: 14)
         btn.backgroundColor = UIColor(red: 120.0/255.0, green: 120.0/255.0, blue: 120.0/255.0, alpha: 1.0)
-        btn.setTitleColor(UIColor.white, for: .normal)
         btn.addTarget(self, action: #selector(defaultClick), for: .touchUpInside)
         return btn
     }()
@@ -31,8 +30,8 @@ class PannelTypeSelectView: UIView {
         btn.setImage(UIImage(named: ""), for: .normal)
         btn.setImage(UIImage(named: ""), for: .selected)
         btn.addTarget(self, action: #selector(selectButtonClick(_:)), for: .touchUpInside)
-        btn.setTitle("下拉", for: .normal)//TEST
-        btn.setTitle("上拉", for: .selected)//TEST
+        btn.setTitle("▼", for: .normal)//TEST
+        btn.setTitle("▲", for: .selected)//TEST
         return btn
     }()
     
