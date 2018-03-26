@@ -18,7 +18,7 @@ class MainPannelView: UIImageView {
     
     private lazy var pannelUpView : MainPannelUpView = {
         let imgV = MainPannelUpView(frame: .zero)
-        imgV.image = UIImage(named: "main_pannel_up")
+        imgV.image = UIImage(named: "main_pannel")
         return imgV
     }()
     
@@ -80,7 +80,7 @@ class MainPannelView: UIImageView {
         addSubview(pannelUpView)
         addSubview(pannelDownView)
         addSubview(dragImageView)
-        addSubview(relayModelSelectView)
+//        addSubview(relayModelSelectView)
         addSubview(pannelTypeSelectView)
     }
     
@@ -90,21 +90,24 @@ class MainPannelView: UIImageView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let screen_Width = UIScreen.main.bounds.width
-        let imgHeight = screen_Width * 140.0 / 718
         
-        let pannelUpHeight = screen_Width * 300.0 / 553
-        pannelUpView.frame = CGRect(x:0, y: 80, width: screen_Width, height: pannelUpHeight)
+        let selectViewWidth : CGFloat = (ScreenWidth - 30) * 0.5
+        let selectViewHeight : CGFloat = 35
+        let selectViewY : CGFloat = currentScreenType() == .Phone_X ? 60 : 20
+        relayModelSelectView.frame = CGRect(x: 10, y: selectViewY, width: selectViewWidth, height: selectViewHeight)
+        pannelTypeSelectView.frame = CGRect(x: ScreenWidth - 10 - selectViewWidth, y: selectViewY, width: selectViewWidth, height: selectViewHeight)
         
-        let pannelDownWidth = screen_Width-20
+        let pannelUpViewY : CGFloat = currentScreenType() == .Phone_X ? 160 : 80
+        let pannelUpHeight = ScreenWidth * 125.0 / 222
+        pannelUpView.frame = CGRect(x:0, y: pannelUpViewY, width: ScreenWidth, height: pannelUpHeight)
+        
+        let pannelDownWidth = ScreenWidth-20
         let pannelDownHeight = pannelDownWidth * 1360.0 / 1553
-        pannelDownView.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - pannelDownHeight, width: pannelDownWidth, height: pannelDownHeight)
+        pannelDownView.frame = CGRect(x: 10, y: ScreenHeight - pannelDownHeight, width: pannelDownWidth, height: pannelDownHeight)
+        let imgHeight = ScreenWidth * 140.0 / 718
+        dragImageView.frame = CGRect(x: 0, y: ScreenHeight - imgHeight, width: ScreenWidth, height: imgHeight)
         
-        dragImageView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - imgHeight, width: screen_Width, height: imgHeight)
         
-        let selectViewWidth : CGFloat = 145
-        relayModelSelectView.frame = CGRect(x: 10, y: 20, width: selectViewWidth, height: 40)
-        pannelTypeSelectView.frame = CGRect(x: screen_Width - 10 - selectViewWidth, y: 20, width: selectViewWidth, height: 40)
     }
     
     private func setupSelectView(selectViewType : SelectViewType,selectIndex : Int) {
@@ -113,9 +116,16 @@ class MainPannelView: UIImageView {
             relayModelSelectView.setupView(text: arrRelayModel[selectIndex], isResponseEvent: false)
             pannelTypeSelectView.isHidden = selectIndex == 0 ? true : false
         }
-        if selectViewType == .pannelType {
+        if selectViewType == .pannelType  {
             pannelTypeSelectView.resetButtonState()
-            pannelTypeSelectView.setupView(text: arrPannelType[selectIndex], isResponseEvent: false)
+            let brandText = arrPannelType[selectIndex]
+            pannelTypeSelectView.setupView(text: brandText, isResponseEvent: false)
+            if selectIndex == arrPannelType.count - 1 {
+                pannelUpView.setupBrandImage("yak_power_gray", "yak_power_white")
+            }else{
+                let imgName = "brand_\(brandText)"
+                pannelUpView.setupBrandImage(imgName)
+            }
         }
     }
     

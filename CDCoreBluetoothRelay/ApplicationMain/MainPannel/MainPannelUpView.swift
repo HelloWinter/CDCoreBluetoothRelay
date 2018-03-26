@@ -21,6 +21,14 @@ class MainPannelUpView: UIImageView {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kReceivedValue), object: nil)
     }
     
+    private lazy var imgBrand : UIImageView = {
+        let imgView = UIImageView()
+        imgView.image = UIImage(named: "yak_power_gray")
+        imgView.highlightedImage = UIImage(named: "yak_power_white")
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
+    
     private lazy var btnSwitch : PannelButton = {
         let btn = PannelButton(normalImg: "up_pannel_switch_gray", selectedImg: "up_pannel_switch_white", disableImg: nil, type: ButtonType.btn_switch)
         btn.isEnabled = true
@@ -73,6 +81,7 @@ class MainPannelUpView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true
+        addSubview(imgBrand)
         addSubview(btnSwitch)
         addSubview(btn1)
         addSubview(btn2)
@@ -91,15 +100,37 @@ class MainPannelUpView: UIImageView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let btn_W_H = self.frame.width * 0.25
-        for i in 0..<8 {
-            let btn = self.subviews[i] as! UIButton
-            btn.frame = CGRect(x: CGFloat(i % 4) * btn_W_H, y: btn_W_H * (CGFloat(i) * 0.25), width: btn_W_H, height: btn_W_H)
-        }
-//        btnSwitch.frame = CGRect(x: 10, y: 0, width: btn_W_H, height: btn_W_H)
-//        btnSwitch.frame = CGRect(x: 0, y: 0, width: btn_W_H, height: btn_W_H)
-//        btnSwitch.frame = CGRect(x: 0, y: 0, width: btn_W_H, height: btn_W_H)
-//        btnSwitch.frame = CGRect(x: 0, y: 0, width: btn_W_H, height: btn_W_H)
+        let rate = ScreenWidth / 320
+        let btn_W_H : CGFloat = 35 * rate
+        
+        let switch_m_x = 78 * rate
+        let nav_2_x = 198 * rate
+        
+        let switch_nav_Y = 52 * rate
+        btnSwitch.frame = CGRect(x: switch_m_x, y: switch_nav_Y, width: btn_W_H, height: btn_W_H)
+        btnNAV.frame = CGRect(x: nav_2_x, y: switch_nav_Y, width: btn_W_H, height: btn_W_H)
+        
+        let b_3_y = 80 * rate
+        btnB.frame = CGRect(x: 45 * rate, y: b_3_y, width: btn_W_H, height: btn_W_H)
+        btn3.frame = CGRect(x: 232 * rate, y: b_3_y, width: btn_W_H, height: btn_W_H)
+        
+        let m_2_y = 108 * rate
+        btnM.frame = CGRect(x: switch_m_x, y: m_2_y, width: btn_W_H, height: btn_W_H)
+        btn2.frame = CGRect(x: nav_2_x, y: m_2_y, width: btn_W_H, height: btn_W_H)
+        
+        let s_1_y = 115 * rate
+        btnS.frame = CGRect(x: 119 * rate, y: s_1_y, width: btn_W_H, height: btn_W_H)
+        btn1.frame = CGRect(x: 159 * rate, y: s_1_y, width: btn_W_H, height: btn_W_H)
+        
+        let imgBrandWidth = btnNAV.center.x - btnSwitch.center.x - btn_W_H * 0.7
+        let imgBrandHeight = btnM.center.y - btnSwitch.center.y - btn_W_H * 0.7
+        imgBrand.bounds = CGRect(x: 0, y: 0, width: imgBrandWidth, height: imgBrandHeight)
+
+        let imgBrandCenterX = (btnNAV.center.x - btnSwitch.center.x) * 0.5 + btnSwitch.center.x
+        let imgBrandCenterY = btnB.center.y
+        imgBrand.center = CGPoint(x:imgBrandCenterX, y:imgBrandCenterY)
+//        imgBrand.layer.borderColor = UIColor.red.cgColor
+//        imgBrand.layer.borderWidth = 0.5
     }
     
     @objc private func receivedData(noti : Notification){
@@ -108,6 +139,7 @@ class MainPannelUpView: UIImageView {
             let arr = extractButtonStatus(byte: data.last!)
             btnSwitch.isSelected = arr[7]
             
+            imgBrand.isHighlighted = arr[7]
             btn1.isEnabled = arr[7]
             btnB.isEnabled = arr[7]
             btnM.isEnabled = arr[7]
@@ -119,16 +151,24 @@ class MainPannelUpView: UIImageView {
             btnM.isSelected = arr[4]
             btnS.isSelected = arr[3]
             btn2.isSelected = arr[2]
-            
-//            print(btn1.isEnabled)
         }
     }
     
     @objc private func sendData(sender : PannelButton){
+        print("点击了\(sender.btnType)")
         let original = "550102" + sender.getStatusCode() + (!sender.isSelected ? "01" : "00")
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
         let sendHexString = original + String(format: "%x", crc8!)
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
+    }
+    
+    func setupBrandImage(_ brandImage : String,_ highlighted : String? = nil) {
+        imgBrand.image = UIImage(named: brandImage)
+        if let highlightedImage = highlighted {
+            imgBrand.highlightedImage = UIImage(named: highlightedImage)
+        }else{
+            imgBrand.highlightedImage = UIImage(named: brandImage)
+        }
     }
 
 }

@@ -117,10 +117,9 @@ extension PannelTypeSelectPopView{
         if self.selectViewType == .pannelType && indexPath.row == arrCellData!.count - 1{
             let emailView = EmailRSSView(viewType: .customizeBoat)
             emailView.show()
-        }else{
-            if let closure = self.selectCousure {
-                closure(self.selectViewType, indexPath.row)
-            }
+        }
+        if let closure = self.selectCousure {
+            closure(self.selectViewType, indexPath.row)
         }
         hide()
     }

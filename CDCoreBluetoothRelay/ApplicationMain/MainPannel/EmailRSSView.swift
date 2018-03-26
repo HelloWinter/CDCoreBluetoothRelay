@@ -17,6 +17,13 @@ class EmailRSSView: UIView {
     
     private(set) var viewType : EmailRSSViewType = .subscribeEmail
     
+    private lazy var backgroundMaskView : UIView = {
+        let mask = UIView(frame: CGRect(x: 0, y: 0, width: (UIApplication.shared.keyWindow?.bounds.width)!, height: (UIApplication.shared.keyWindow?.bounds.height)!))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hide))
+        mask.addGestureRecognizer(tap)
+        return mask
+    }()
+    
     private lazy var lbContent : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
@@ -79,6 +86,9 @@ class EmailRSSView: UIView {
         addSubview(lbContent)
         addSubview(textfield)
         addSubview(btnSend)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        addGestureRecognizer(tap)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -105,34 +115,46 @@ class EmailRSSView: UIView {
     
     func show() -> Void {
         if let keyWindow = UIApplication.shared.keyWindow {
+            if backgroundMaskView.superview == nil {
+                keyWindow.addSubview(backgroundMaskView)
+            }
             if self.superview == nil {
                 keyWindow.addSubview(self)
             }
-            self.center = CGPoint(x: keyWindow.bounds.width * 0.5, y: keyWindow.bounds.height * 0.5)
+            self.center = CGPoint(x: keyWindow.bounds.width * 0.5, y: keyWindow.bounds.height * 0.5 - 40)
         }
     }
     
-    func hide() -> Void {
-        self.removeFromSuperview()
+    @objc func hide() -> Void {
+        if backgroundMaskView.superview != nil{
+            backgroundMaskView.removeFromSuperview()
+        }
+        if self.superview != nil {
+            self.removeFromSuperview()
+        }
     }
 
     @objc private func btnSendClick(){
         if self.viewType == .customizeBoat {
             if let text = textfield.text{
                 print("发送邮件 : \(text)")
-                sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "", messageBody: text)
+                sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "Customize Boat", messageBody: text)
             }
         }
         if self.viewType == .subscribeEmail {
             if let text = textfield.text {
                 if text.isEmail() {
                     print("发送邮件 : \(text)")
-                    sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "", messageBody: text)
+                    sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "Subscribe Email", messageBody: text)
                 }else{
-                    CDAutoHideMessageHUD.showMessage("邮箱格式错误")
+                    CDAutoHideMessageHUD.showMessage("Email format error")
                 }
                 
             }
         }
+    }
+    
+    @objc private func hideKeyboard(){
+        self.endEditing(true)
     }
 }

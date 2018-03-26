@@ -11,10 +11,10 @@
 		B4103072205D3965002B6579 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4103070205D3965002B6579 /* Main.storyboard */; };
 		B4103074205D3965002B6579 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4103073205D3965002B6579 /* Assets.xcassets */; };
 		B4103077205D3965002B6579 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4103075205D3965002B6579 /* LaunchScreen.storyboard */; };
+		B414A15A2068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414A1592068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift */; };
 		B417C2EA205E051300858FCD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2E9205E051300858FCD /* ViewController.swift */; };
 		B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2EC205E057000858FCD /* CDCoreBluetoothTool.swift */; };
 		B417C2F0205E077000858FCD /* CDSendEmailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2EF205E077000858FCD /* CDSendEmailManager.swift */; };
-		B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */; };
 		B41A15E720634ED10057BAA6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41A15E620634ED10057BAA6 /* StringExtension.swift */; };
 		B41A15ED20635CD00057BAA6 /* CDAutoHideMessageHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B41A15EB20635CD00057BAA6 /* CDAutoHideMessageHUD.m */; };
 		B41B3BC52065F40A00DEDCC5 /* MainPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BC32065F40A00DEDCC5 /* MainPannelView.swift */; };
@@ -24,7 +24,6 @@
 		B41B3BCD2065F46A00DEDCC5 /* PannelTypeSelectPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BCB2065F46A00DEDCC5 /* PannelTypeSelectPopView.swift */; };
 		B41B3BCF2065F49400DEDCC5 /* EmailRSSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BCE2065F49400DEDCC5 /* EmailRSSView.swift */; };
 		B41B3BF220661EAF00DEDCC5 /* CDUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF120661EAF00DEDCC5 /* CDUtilities.swift */; };
-		B41B3BF42066241E00DEDCC5 /* BluetoothPeripheralPopTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF32066241E00DEDCC5 /* BluetoothPeripheralPopTableView.swift */; };
 		B41B3BF62067418500DEDCC5 /* MainPannelDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF52067418500DEDCC5 /* MainPannelDownView.swift */; };
 		B41B3BF82067688C00DEDCC5 /* PannelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF72067688C00DEDCC5 /* PannelButton.swift */; };
 /* End PBXBuildFile section */
@@ -36,10 +35,10 @@
 		B4103073205D3965002B6579 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B4103076205D3965002B6579 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B4103078205D3965002B6579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B414A1592068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothPeripheralPopTableView.swift; sourceTree = "<group>"; };
 		B417C2E9205E051300858FCD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B417C2EC205E057000858FCD /* CDCoreBluetoothTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCoreBluetoothTool.swift; sourceTree = "<group>"; };
 		B417C2EF205E077000858FCD /* CDSendEmailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSendEmailManager.swift; sourceTree = "<group>"; };
-		B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothRelayPannelView.swift; sourceTree = "<group>"; };
 		B41A15722060E1060057BAA6 /* CDCoreBluetoothRelay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CDCoreBluetoothRelay-Bridging-Header.h"; sourceTree = "<group>"; };
 		B41A15E620634ED10057BAA6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		B41A15EB20635CD00057BAA6 /* CDAutoHideMessageHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAutoHideMessageHUD.m; sourceTree = "<group>"; };
@@ -51,7 +50,6 @@
 		B41B3BCB2065F46A00DEDCC5 /* PannelTypeSelectPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PannelTypeSelectPopView.swift; sourceTree = "<group>"; };
 		B41B3BCE2065F49400DEDCC5 /* EmailRSSView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailRSSView.swift; sourceTree = "<group>"; };
 		B41B3BF120661EAF00DEDCC5 /* CDUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUtilities.swift; sourceTree = "<group>"; };
-		B41B3BF32066241E00DEDCC5 /* BluetoothPeripheralPopTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothPeripheralPopTableView.swift; sourceTree = "<group>"; };
 		B41B3BF52067418500DEDCC5 /* MainPannelDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPannelDownView.swift; sourceTree = "<group>"; };
 		B41B3BF72067688C00DEDCC5 /* PannelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PannelButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				B417C2E9205E051300858FCD /* ViewController.swift */,
-				B417C2F1205E6D4500858FCD /* BluetoothRelayPannelView.swift */,
 				B41B3BC22065F3F000DEDCC5 /* MainPannel */,
 				B41B3BC72065F42C00DEDCC5 /* ConfigurePannel */,
 			);
@@ -148,7 +145,6 @@
 				B41B3BCA2065F46A00DEDCC5 /* PannelTypeSelectView.swift */,
 				B41B3BC42065F40A00DEDCC5 /* MainPannelUpView.swift */,
 				B41B3BF52067418500DEDCC5 /* MainPannelDownView.swift */,
-				B41B3BF32066241E00DEDCC5 /* BluetoothPeripheralPopTableView.swift */,
 			);
 			path = MainPannel;
 			sourceTree = "<group>";
@@ -156,6 +152,7 @@
 		B41B3BC72065F42C00DEDCC5 /* ConfigurePannel */ = {
 			isa = PBXGroup;
 			children = (
+				B414A1592068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift */,
 				B41B3BC82065F45600DEDCC5 /* ConfigurePannelView.swift */,
 			);
 			path = ConfigurePannel;
@@ -236,11 +233,10 @@
 			files = (
 				B417C2EA205E051300858FCD /* ViewController.swift in Sources */,
 				B41B3BC62065F40A00DEDCC5 /* MainPannelUpView.swift in Sources */,
+				B414A15A2068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift in Sources */,
 				B41B3BCF2065F49400DEDCC5 /* EmailRSSView.swift in Sources */,
 				B41A15ED20635CD00057BAA6 /* CDAutoHideMessageHUD.m in Sources */,
-				B41B3BF42066241E00DEDCC5 /* BluetoothPeripheralPopTableView.swift in Sources */,
 				B410306D205D3965002B6579 /* AppDelegate.swift in Sources */,
-				B417C2F2205E6D4500858FCD /* BluetoothRelayPannelView.swift in Sources */,
 				B41B3BC52065F40A00DEDCC5 /* MainPannelView.swift in Sources */,
 				B41B3BCD2065F46A00DEDCC5 /* PannelTypeSelectPopView.swift in Sources */,
 				B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */,

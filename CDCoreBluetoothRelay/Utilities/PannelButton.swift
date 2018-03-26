@@ -56,7 +56,7 @@ class PannelButton: UIButton {
             statusCode.append("01")
         case .btn_B:
             statusCode.append("02")
-        case .btn_M :
+        case .btn_M:
             statusCode.append("03")
         case .btn_S:
             statusCode.append("04")
@@ -67,7 +67,7 @@ class PannelButton: UIButton {
         case .btn_NAV:
             statusCode.append("07")//预留
         default:
-            CDAutoHideMessageHUD.showMessage("按钮功能未知")
+            CDAutoHideMessageHUD.showMessage("Button function Unknown")
             break
         }
         return statusCode

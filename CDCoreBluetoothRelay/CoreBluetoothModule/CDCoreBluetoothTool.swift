@@ -44,7 +44,7 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     
     private(set) var arrPeri : [CBPeripheral] = Array()
     
-    private var arrPeriUUID : [String] = Array()
+    private var arrPeriUUID = [String]()
     
     private var peripheralConnectRetry = 0
     ///获取所有按钮初始状态
@@ -87,18 +87,18 @@ extension CDCoreBluetoothTool {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
         case .poweredOff:
-            print("蓝牙未开启")
+            CDAutoHideMessageHUD.showMessage("Bluetooth is poweredOff，please open bluetooth. if you have already opened it in \"Settings\",please close bluetooth in \"Control Center\",then open it again.")
         case .poweredOn:
             print("蓝牙已开启")
             scanPeripheral()
         case .resetting:
-            CDAutoHideMessageHUD.showMessage("蓝牙正在重启")
+            CDAutoHideMessageHUD.showMessage("Bluetooth is resetting")
         case .unauthorized:
-            CDAutoHideMessageHUD.showMessage("蓝牙未授权")
+            CDAutoHideMessageHUD.showMessage("Bluetooth is unauthorized")
         case .unknown:
-            CDAutoHideMessageHUD.showMessage("蓝牙状态未知")
+            CDAutoHideMessageHUD.showMessage("Bluetooth state is unknown")
         case .unsupported:
-            print("不支持蓝牙")
+            CDAutoHideMessageHUD.showMessage("Bluetooth is Unsupported ")
         }
     }
     
@@ -117,11 +117,12 @@ extension CDCoreBluetoothTool {
             if let uuid = UserDefaults.standard.object(forKey: kBluetoothPeripheralUUIDKey) as? String, uuid == peripheral.identifier.uuidString {
                 connectTo(peripheral: peripheral)
             }else{//搜到设备，但未连接,需要手动连接
-                
-                ///这里有问题
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    if let closure = self.discoverPeripheralUnconnectClosure {
-                        closure()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {[weak self] in
+                    //等待3秒如果还是没有连接上，就跳转到配置页，手动连接
+                    if !(self?.peripheralConnectState)! {
+                        if let closure = self?.discoverPeripheralUnconnectClosure {
+                            closure()
+                        }
                     }
                 })
             }
@@ -138,7 +139,7 @@ extension CDCoreBluetoothTool {
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        CDAutoHideMessageHUD.showMessage("外设连接失败")
+        CDAutoHideMessageHUD.showMessage("Failed to connect peripheral")
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {

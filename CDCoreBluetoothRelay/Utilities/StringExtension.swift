@@ -10,7 +10,6 @@
 import UIKit
 
 extension String{
-    
     ///String转Double?类型
     func toDouble() -> Double? {
         return NumberFormatter().number(from: self)?.doubleValue

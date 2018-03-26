@@ -60,6 +60,7 @@ class PannelTypeSelectView: UIView {
         self.isResponseDefaultClick = isResponseEvent
     }
     
+    /// 重置下拉小三角
     func resetButtonState() -> Void {
         btnSelectPannelType.isSelected = false
     }

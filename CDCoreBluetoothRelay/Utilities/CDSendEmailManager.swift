@@ -34,7 +34,7 @@ class CDSendEmailManager: NSObject,MFMailComposeViewControllerDelegate {
     ///   - isHTML: 邮件内容是否是html,默认false
     func sendEmail(recipients : [String],subject : String,bccRecipients : [String]? = nil,ccRecipients : [String]? = nil,messageBody : String,isHTML : Bool = false) -> Void {
         if !MFMailComposeViewController.canSendMail() {
-            CDAutoHideMessageHUD.showMessage("您还未设置邮件帐户,请设置邮件帐户再来发送电子邮件")
+            CDAutoHideMessageHUD.showMessage("You have not set up an email account yet. Please set your email account to send email.")
             return
         }
         mailComposeVC.setToRecipients(recipients)
@@ -57,13 +57,13 @@ extension CDSendEmailManager{
         }
         switch result {
         case .cancelled:
-            CDAutoHideMessageHUD.showMessage("邮件发送已被取消")
+            CDAutoHideMessageHUD.showMessage("Mail delivery has been cancelled.")
         case .failed:
-            CDAutoHideMessageHUD.showMessage("邮件发送失败")
+            CDAutoHideMessageHUD.showMessage("Email failed")
         case .saved:
-            CDAutoHideMessageHUD.showMessage("邮件已被保存")
+            CDAutoHideMessageHUD.showMessage("The mail has been saved.")
         case .sent:
-            CDAutoHideMessageHUD.showMessage("邮件已存入发送队列")
+            CDAutoHideMessageHUD.showMessage("MailComposeResult sent")
         }
         delegate?.dismiss(animated: true, completion: {
             

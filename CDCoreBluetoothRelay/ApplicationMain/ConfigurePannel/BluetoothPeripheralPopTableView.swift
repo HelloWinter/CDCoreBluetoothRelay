@@ -27,7 +27,7 @@ class BluetoothPeripheralPopTableView: UIView,UITableViewDataSource,UITableViewD
     
     private let viewWidth : CGFloat = 280
     
-    private let viewHeight : CGFloat = 440
+    private let viewHeight : CGFloat = 396
     
     private lazy var backgroundMaskView : UIView = {
         let mask = UIView(frame: CGRect(x: 0, y: 0, width: (UIApplication.shared.keyWindow?.bounds.width)!, height: (UIApplication.shared.keyWindow?.bounds.height)!))
@@ -79,7 +79,7 @@ class BluetoothPeripheralPopTableView: UIView,UITableViewDataSource,UITableViewD
             if self.superview == nil {
                 keyWindow.addSubview(self)
             }
-            self.center = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.5)
+            self.center = CGPoint(x: ScreenWidth * 0.5, y: ScreenHeight * 0.5)
         }
     }
     

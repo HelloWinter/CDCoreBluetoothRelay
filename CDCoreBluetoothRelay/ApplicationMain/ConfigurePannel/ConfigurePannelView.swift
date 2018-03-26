@@ -21,8 +21,8 @@ class ConfigurePannelView: UIImageView {
         return imgV
     }()
     
-    private lazy var pannelDownView : UIImageView = {
-        let imgV = UIImageView()
+    private lazy var pannelDownView : MainPannelDownView = {
+        let imgV = MainPannelDownView(frame: .zero)
         imgV.image = UIImage(named: "main_pannel_down_blank")
         return imgV
     }()
@@ -66,14 +66,14 @@ class ConfigurePannelView: UIImageView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let imgWidth = UIScreen.main.bounds.width
+        let imgWidth = ScreenWidth
         let imgHeight = imgWidth * 190.0 / 717
         dragImageView.frame = CGRect(x: 0, y: 0, width: imgWidth, height: imgHeight)
         let pannelDownWidth = imgWidth-20
         let pannelDownHeight = pannelDownWidth * 1360.0 / 1553
-        pannelDownView.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - pannelDownHeight + 40, width: pannelDownWidth, height: pannelDownHeight)
+        pannelDownView.frame = CGRect(x: 10, y: ScreenHeight - pannelDownHeight + 40, width: pannelDownWidth, height: pannelDownHeight)
         pannelPhoneView.bounds = CGRect(x: 0, y: 0, width: 80, height: 208 * 0.8)//100*208
-        pannelPhoneView.center = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.5 - 100)
+        pannelPhoneView.center = CGPoint(x: ScreenWidth * 0.5, y: ScreenHeight * 0.5 - 100)
         btnConnect.frame = CGRect(x: pannelPhoneView.frame.maxX + 30, y: pannelPhoneView.frame.maxY, width: 48, height: 48)
     }
     

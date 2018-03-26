@@ -18,6 +18,9 @@ enum ScreenType : Int {
     case Unspecified
 }
 
+let ScreenWidth = UIScreen.main.bounds.width
+let ScreenHeight = UIScreen.main.bounds.height
+
 /// 当前屏幕类型
 func currentScreenType() -> ScreenType {
     if (UI_USER_INTERFACE_IDIOM() == .phone) {
