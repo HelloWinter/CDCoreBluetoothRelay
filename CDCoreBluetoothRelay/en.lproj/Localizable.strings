@@ -19,3 +19,4 @@
 "EmailSaved" = "The mail has been saved.";
 "EmailSent" = "MailComposeResult sent";
 "ButtonFunctionUnknown" = "Button function Unknown";
+"SelectDevice" = "Select Your Bluetooth Device";

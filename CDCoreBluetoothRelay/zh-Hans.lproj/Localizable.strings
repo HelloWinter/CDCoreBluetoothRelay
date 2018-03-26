@@ -20,3 +20,4 @@
 "EmailSaved" = "邮件已被保存";
 "EmailSent" = "邮件已发送";
 "ButtonFunctionUnknown" = "按钮功能未知";
+"SelectDevice" = "请选择蓝牙设备";

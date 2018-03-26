@@ -64,7 +64,11 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     ///向外设发送16进制字符串
     func sendToPeripheralWith(hexString : String?) {
         if let hexStr = hexString,let data = dataFrom(hexString: hexStr) {
-            self.peripheral?.writeValue(data, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
+            if let peripheral = self.peripheral{
+                peripheral.writeValue(data, for: self.characteristic!, type: CBCharacteristicWriteType.withResponse)
+            }else{
+                CDAutoHideMessageHUD.showMessage(NSLocalizedString("ConnectManually", comment: ""))
+            }
         }
     }
     ///连接到外设
@@ -245,7 +249,7 @@ extension CDCoreBluetoothTool {
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         print("向外设写数据")
         if let error = error {
-            print(error.localizedDescription)
+            CDAutoHideMessageHUD.showMessage(error.localizedDescription)
             return
         }
         print("向外设写数据成功")

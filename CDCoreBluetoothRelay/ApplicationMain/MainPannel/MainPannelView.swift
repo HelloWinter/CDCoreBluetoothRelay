@@ -106,8 +106,6 @@ class MainPannelView: UIImageView {
         pannelDownView.frame = CGRect(x: 10, y: ScreenHeight - pannelDownHeight, width: pannelDownWidth, height: pannelDownHeight)
         let imgHeight = ScreenWidth * 140.0 / 718
         dragImageView.frame = CGRect(x: 0, y: ScreenHeight - imgHeight, width: ScreenWidth, height: imgHeight)
-        
-        
     }
     
     private func setupSelectView(selectViewType : SelectViewType,selectIndex : Int) {

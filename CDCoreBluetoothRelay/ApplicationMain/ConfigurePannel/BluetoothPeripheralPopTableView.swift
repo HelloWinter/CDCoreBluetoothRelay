@@ -36,6 +36,15 @@ class BluetoothPeripheralPopTableView: UIView,UITableViewDataSource,UITableViewD
         return mask
     }()
     
+    private lazy var lbTitle : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.text = NSLocalizedString("SelectDevice", comment: "")
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        return label
+    }()
+    
     private lazy var tableView : UITableView = {
         let tableV = UITableView()
         tableV.delegate = self
@@ -54,6 +63,7 @@ class BluetoothPeripheralPopTableView: UIView,UITableViewDataSource,UITableViewD
         super.init(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPeripheralTableView), name: Notification.Name(kDiscoverBluetoothPeripheral), object: nil)
         backgroundColor = UIColor.init(white: 0.25, alpha: 0.6)
+        addSubview(lbTitle)
         addSubview(tableView)
     }
     
@@ -63,7 +73,8 @@ class BluetoothPeripheralPopTableView: UIView,UITableViewDataSource,UITableViewD
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        tableView.frame = CGRect(x: 10, y: 20, width: frame.width - 20, height: frame.height - 30)
+        lbTitle.frame = CGRect(x: 0, y: 10, width: frame.width, height: 20)
+        tableView.frame = CGRect(x: 10, y: lbTitle.frame.maxY+5, width: frame.width - 20, height: frame.height - 20 - lbTitle.frame.height)
         layer.borderColor = UIColor(red: 53.0/255.0, green: 133.0/255.0, blue: 202.0/255.0, alpha: 1.0).cgColor
         layer.borderWidth = 3
         layer.cornerRadius = 20
