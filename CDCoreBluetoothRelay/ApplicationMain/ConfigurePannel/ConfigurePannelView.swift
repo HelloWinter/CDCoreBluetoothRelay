@@ -53,6 +53,7 @@ class ConfigurePannelView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true
+        image = UIImage(named: "configure_pannel_background")
         addSubview(dragImageView)
         addSubview(pannelDownView)
         addSubview(pannelPhoneView)
@@ -96,5 +97,9 @@ class ConfigurePannelView: UIImageView {
                 btnConnect.isSelected = false
             }
         }
+    }
+    
+    func setupBrandButton(isCustom : Bool) -> Void {
+        pannelDownView.setupBrandButton(isCustom: isCustom)
     }
 }

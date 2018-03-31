@@ -25,19 +25,24 @@ class PannelButton: UIButton {
     
     private(set) var btnType : ButtonType = .btn_unknown
     
-    /// 初始化按钮
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    /// 设置按钮
     ///
     /// - Parameters:
     ///   - normalImg: 关闭状态图片
     ///   - selectedImg: 打开状态图片
     ///   - disableImg: 不可用状态图片
     ///   - type: 按钮功能类型
-    init(normalImg : String,selectedImg : String,disableImg : String?,type : ButtonType) {
-        super.init(frame: .zero)
+    func setupButton(normalImg : String,selectedImg : String,disableImg : String?,type : ButtonType) -> Void {
         setImage(UIImage(named:normalImg), for: .normal)
         setImage(UIImage(named:selectedImg), for: .selected)
         if let img = disableImg {
             setImage(UIImage(named:img), for: .disabled)
+        }else{
+            setImage(nil, for: .disabled)
         }
         btnType = type
         isEnabled = false

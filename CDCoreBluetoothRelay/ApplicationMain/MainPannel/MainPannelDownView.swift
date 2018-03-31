@@ -28,49 +28,51 @@ class MainPannelDownView: UIImageView {
     }()
     
     private lazy var btn1 : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_1_red", selectedImg: "down_pannel_1_white", disableImg: "down_pannel_1_gray", type: .btn_1)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btn2 : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_2_red", selectedImg: "down_pannel_2_white", disableImg: "down_pannel_2_gray", type: .btn_2)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btn3 : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_3_red", selectedImg: "down_pannel_3_white", disableImg: "down_pannel_3_gray", type: .btn_3)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btnB : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_B_red", selectedImg: "down_pannel_B_white", disableImg: "down_pannel_B_gray", type: .btn_B)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btnM : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_M_red", selectedImg: "down_pannel_M_white", disableImg: "down_pannel_M_gray", type: .btn_M)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btnS : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_S_red", selectedImg: "down_pannel_S_white", disableImg: "down_pannel_S_gray", type: .btn_S)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
     
     private lazy var btnNAV : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_NAV_red", selectedImg: "down_pannel_NAV_white", disableImg: "down_pannel_NAV_gray", type: .btn_NAV)
+        let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
+        btn.setupButton(normalImg: "down_pannel_NAV_red", selectedImg: "down_pannel_NAV_white", disableImg: "down_pannel_NAV_gray", type: .btn_NAV)
         return btn
     }()
     
     private lazy var btnAnchor : PannelButton = {
-        let btn = PannelButton(normalImg: "down_pannel_anchor_red", selectedImg: "down_pannel_anchor_white", disableImg: "down_pannel_anchor_gray", type: .btn_switch)
+        let btn = PannelButton()
+        btn.setupButton(normalImg: "down_pannel_anchor_red", selectedImg: "down_pannel_anchor_white", disableImg: "down_pannel_anchor_gray", type: .btn_anchor)
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         return btn
     }()
@@ -137,6 +139,29 @@ class MainPannelDownView: UIImageView {
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
         let sendHexString = original + String(format: "%x", crc8!)
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
+    }
+    
+    func setupBrandButton(isCustom : Bool) -> Void {
+        if isCustom {
+            //            btnSwitch.setupButton(normalImg: "down_pannel_switch_gray", selectedImg: "down_pannel_switch_white", disableImg: nil, type: .btn_switch)
+            btn1.setupButton(normalImg: "down_pannel_ACC2_red", selectedImg: "down_pannel_ACC2_white", disableImg: "down_pannel_ACC2_gray", type: .btn_1)
+            btn2.setupButton(normalImg: "down_pannel_EXT_red", selectedImg: "down_pannel_EXT_white", disableImg: "down_pannel_EXT_gray", type: .btn_2)
+            btn3.setupButton(normalImg: "down_pannel_LIVE_red", selectedImg: "down_pannel_LIVE_white", disableImg: "down_pannel_LIVE_gray", type: .btn_3)
+            btnB.setupButton(normalImg: "down_pannel_BLG_red", selectedImg: "down_pannel_BLG_white", disableImg: "down_pannel_BLG_gray", type: .btn_B)
+            btnM.setupButton(normalImg: "down_pannel_INT_red", selectedImg: "down_pannel_INT_white", disableImg: "down_pannel_INT_gray", type: .btn_M)
+            btnS.setupButton(normalImg: "down_pannel_ACC1_red", selectedImg: "down_pannel_ACC1_white", disableImg: "down_pannel_ACC1_gray", type: .btn_S)
+        }else{
+            
+            btn1.setupButton(normalImg: "down_pannel_1_red", selectedImg: "down_pannel_1_white", disableImg: "down_pannel_1_gray", type: .btn_1)
+            btn2.setupButton(normalImg: "down_pannel_2_red", selectedImg: "down_pannel_2_white", disableImg: "down_pannel_2_gray", type: .btn_2)
+            btn3.setupButton(normalImg: "down_pannel_3_red", selectedImg: "down_pannel_3_white", disableImg: "down_pannel_3_gray", type: .btn_3)
+            btnB.setupButton(normalImg: "down_pannel_B_red", selectedImg: "down_pannel_B_white", disableImg: "down_pannel_B_gray", type: .btn_B)
+            btnM.setupButton(normalImg: "down_pannel_M_red", selectedImg: "down_pannel_M_white", disableImg: "down_pannel_M_gray", type: .btn_M)
+            btnS.setupButton(normalImg: "down_pannel_S_red", selectedImg: "down_pannel_S_white", disableImg: "down_pannel_S_gray", type: .btn_S)
+//            btnSwitch.setupButton(normalImg: "down_pannel_switch_gray", selectedImg: "down_pannel_switch_white", disableImg: nil, type: .btn_switch)
+            //            imgView.image = UIImage(named: "yak_power_gray")
+            //            imgView.highlightedImage = UIImage(named: "yak_power_white")
+        }
     }
 
 }

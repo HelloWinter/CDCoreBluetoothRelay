@@ -130,6 +130,7 @@ extension BluetoothPeripheralPopTableView{
         cell?.textLabel?.textColor = UIColor.white
         let peri = arrCellData![indexPath.row]
         cell!.textLabel?.text = peri.name
+        cell!.imageView?.image = UIImage(named: "bluetooth_peripheral")
         return cell!
     }
     
