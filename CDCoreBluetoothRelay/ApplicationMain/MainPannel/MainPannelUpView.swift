@@ -107,24 +107,24 @@ class MainPannelUpView: UIImageView {
         let rate = ScreenWidth / 320
         let btn_W_H : CGFloat = 35 * rate
         
-        let switch_m_x = 78 * rate
-        let nav_2_x = 198 * rate
+        let switch_m_x = 82 * rate
+        let nav_2_x = 202 * rate
         
-        let switch_nav_Y = 52 * rate
+        let switch_nav_Y = 47 * rate
         btnSwitch.frame = CGRect(x: switch_m_x, y: switch_nav_Y, width: btn_W_H, height: btn_W_H)
         btnNAV.frame = CGRect(x: nav_2_x, y: switch_nav_Y, width: btn_W_H, height: btn_W_H)
         
-        let b_3_y = 80 * rate
-        btnB.frame = CGRect(x: 45 * rate, y: b_3_y, width: btn_W_H, height: btn_W_H)
-        btn3.frame = CGRect(x: 232 * rate, y: b_3_y, width: btn_W_H, height: btn_W_H)
+        let b_3_y = 75 * rate
+        btnB.frame = CGRect(x: 49 * rate, y: b_3_y, width: btn_W_H, height: btn_W_H)
+        btn3.frame = CGRect(x: 236 * rate, y: b_3_y, width: btn_W_H, height: btn_W_H)
         
-        let m_2_y = 108 * rate
+        let m_2_y = 103 * rate
         btnM.frame = CGRect(x: switch_m_x, y: m_2_y, width: btn_W_H, height: btn_W_H)
         btn2.frame = CGRect(x: nav_2_x, y: m_2_y, width: btn_W_H, height: btn_W_H)
         
-        let s_1_y = 115 * rate
-        btnS.frame = CGRect(x: 119 * rate, y: s_1_y, width: btn_W_H, height: btn_W_H)
-        btn1.frame = CGRect(x: 159 * rate, y: s_1_y, width: btn_W_H, height: btn_W_H)
+        let s_1_y = 110 * rate
+        btnS.frame = CGRect(x: 123 * rate, y: s_1_y, width: btn_W_H, height: btn_W_H)
+        btn1.frame = CGRect(x: 163 * rate, y: s_1_y, width: btn_W_H, height: btn_W_H)
         
         let imgBrandWidth = btnNAV.center.x - btnSwitch.center.x - btn_W_H
         let imgBrandHeight = btnM.center.y - btnSwitch.center.y - btn_W_H * 0.5
@@ -184,7 +184,6 @@ class MainPannelUpView: UIImageView {
             btnB.setupButton(normalImg: "up_pannel_BLG_red", selectedImg: "up_pannel_BLG_white", disableImg: "up_pannel_BLG_gray", type: .btn_B)
             btnM.setupButton(normalImg: "up_pannel_INT_red", selectedImg: "up_pannel_INT_white", disableImg: "up_pannel_INT_gray", type: .btn_M)
             btnS.setupButton(normalImg: "up_pannel_ACC1_red", selectedImg: "up_pannel_ACC1_white", disableImg: "up_pannel_ACC1_gray", type: .btn_S)
-            "这里要修改"
             self.image = UIImage(named: "main_pannel_logo_gray")
             self.highlightedImage = UIImage(named: "main_pannel_logo_white")
         }else{
@@ -196,8 +195,8 @@ class MainPannelUpView: UIImageView {
             btnM.setupButton(normalImg: "up_pannel_M_red", selectedImg: "up_pannel_M_white", disableImg: "up_pannel_M_gray", type: .btn_M)
             btnS.setupButton(normalImg: "up_pannel_S_red", selectedImg: "up_pannel_S_white", disableImg: "up_pannel_S_gray", type: .btn_S)
             
-            self.image = UIImage(named: "main_pannel_logo_gray")
-            self.highlightedImage = UIImage(named: "main_pannel_logo_white")
+            self.image = UIImage(named: "main_pannel_gray")
+            self.highlightedImage = UIImage(named: "main_pannel_white")
         }
     }
 
