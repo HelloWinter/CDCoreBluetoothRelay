@@ -13,6 +13,8 @@ class CDSendEmailManager: NSObject,MFMailComposeViewControllerDelegate {
     
     weak var delegate : UIViewController?
     
+    var didSentEmailClosure : (() -> Void)?
+    
     private lazy var mailComposeVC : MFMailComposeViewController = {
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = self
@@ -53,7 +55,7 @@ class CDSendEmailManager: NSObject,MFMailComposeViewControllerDelegate {
 extension CDSendEmailManager{
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         if let error = error {
-            print(error.localizedDescription)
+            CDAutoHideMessageHUD.showMessage(error.localizedDescription)
         }
         switch result {
         case .cancelled:
@@ -64,6 +66,9 @@ extension CDSendEmailManager{
             CDAutoHideMessageHUD.showMessage(NSLocalizedString("EmailSaved", comment: ""))
         case .sent:
             CDAutoHideMessageHUD.showMessage(NSLocalizedString("EmailSent", comment: ""))
+            if let closure = self.didSentEmailClosure {
+                closure()
+            }
         }
         delegate?.dismiss(animated: true, completion: {
             

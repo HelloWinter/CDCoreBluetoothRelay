@@ -65,6 +65,10 @@ class EmailRSSView: UIView {
     
     private lazy var sendEmailMgr : CDSendEmailManager = {
         let mgr = CDSendEmailManager()
+        mgr.delegate = visibleController()
+        mgr.didSentEmailClosure = {[weak self] in
+            self?.hide()
+        }
         return mgr
     }()
     
@@ -139,6 +143,7 @@ class EmailRSSView: UIView {
             if let text = textfield.text{
                 print("发送邮件 : \(text)")
                 sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "Customize Boat", messageBody: text)
+                hide()
             }
         }
         if self.viewType == .subscribeEmail {
@@ -146,6 +151,7 @@ class EmailRSSView: UIView {
                 if text.isEmail() {
                     print("发送邮件 : \(text)")
                     sendEmailMgr.sendEmail(recipients: ["info@bazooka.com"], subject: "Subscribe Email", messageBody: text)
+                    hide()
                 }else{
                     CDAutoHideMessageHUD.showMessage(NSLocalizedString("EmailFormatError", comment: ""))
                 }

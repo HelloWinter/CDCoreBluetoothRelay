@@ -85,6 +85,13 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     func stopScanPeripheral() -> Void {
         cMgr!.stopScan()
     }
+    
+    /// 断开连接
+    func cancelConnection() -> Void {
+        if self.peripheral != nil {
+            cMgr!.cancelPeripheralConnection(self.peripheral!)
+        }
+    }
 }
 
 extension CDCoreBluetoothTool {
@@ -143,6 +150,7 @@ extension CDCoreBluetoothTool {
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        self.peripheral = nil
         CDAutoHideMessageHUD.showMessage(NSLocalizedString("FailConnect", comment: ""))
     }
     
@@ -150,6 +158,7 @@ extension CDCoreBluetoothTool {
         print("外设断开连接")
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: false)
         peripheralConnectState = false
+        self.peripheral = nil
         //外设断开连接重试次数
         if peripheralConnectRetry < 1 {
             connectTo(peripheral: peripheral)

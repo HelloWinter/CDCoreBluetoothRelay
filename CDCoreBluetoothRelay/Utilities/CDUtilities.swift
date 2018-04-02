@@ -21,6 +21,29 @@ enum ScreenType : Int {
 let ScreenWidth = UIScreen.main.bounds.width
 let ScreenHeight = UIScreen.main.bounds.height
 
+private func findTopModelViewController(vc : UIViewController) -> UIViewController {
+    var vc = vc
+    while vc.presentedViewController != nil {
+        vc = vc.presentedViewController!
+    }
+    if vc.isKind(of: UINavigationController.self) {
+        vc = (vc as! UINavigationController).visibleViewController!
+    }
+    return vc
+}
+
+func visibleController() -> UIViewController? {
+    if let window = UIApplication.shared.delegate?.window as? UIWindow,let appRootViewController = window.rootViewController  {
+        if appRootViewController.isKind(of: UITabBarController.self) {
+            let tabBarVC = appRootViewController as! UITabBarController
+            return findTopModelViewController(vc: tabBarVC.selectedViewController!)
+        }else{
+            return findTopModelViewController(vc: appRootViewController)
+        }
+    }
+    return nil
+}
+
 /// 当前屏幕类型
 func currentScreenType() -> ScreenType {
     if (UI_USER_INTERFACE_IDIOM() == .phone) {

@@ -110,6 +110,8 @@ class ViewController: UIViewController {
         relayModelSelectView.frame = CGRect(x: 10, y: selectViewY, width: selectViewWidth, height: selectViewHeight)
         pannelTypeSelectView.frame = CGRect(x: ScreenWidth - 10 - selectViewWidth, y: selectViewY, width: selectViewWidth, height: selectViewHeight)
         
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(peripheralConnectStateChanged), name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
         
         CDCoreBluetoothTool.shared.discoverPeripheralUnconnectClosure = {[weak self] in

@@ -109,8 +109,8 @@ class MainPannelDownView: UIImageView {
                 btn.frame = CGRect(x: 10 + CGFloat(i) * (btn_W_H + h_margin), y: 60, width: btn_W_H, height: btn_W_H)
             }
         }
-        let imgBrandHeight = 35 * (ScreenWidth / 320)
-        imgBrand.frame = CGRect(x: 10, y: 5, width: self.frame.width - 20.0, height: imgBrandHeight)
+        let imgBrandHeight = 30 * (ScreenWidth / 320)
+        imgBrand.frame = CGRect(x: 10, y: 10, width: self.frame.width - 20.0, height: imgBrandHeight)
     }
     
     @objc private func receivedData(noti : Notification){
@@ -143,7 +143,6 @@ class MainPannelDownView: UIImageView {
     
     func setupBrandButton(isCustom : Bool) -> Void {
         if isCustom {
-            //            btnSwitch.setupButton(normalImg: "down_pannel_switch_gray", selectedImg: "down_pannel_switch_white", disableImg: nil, type: .btn_switch)
             btn1.setupButton(normalImg: "down_pannel_ACC2_red", selectedImg: "down_pannel_ACC2_white", disableImg: "down_pannel_ACC2_gray", type: .btn_1)
             btn2.setupButton(normalImg: "down_pannel_EXT_red", selectedImg: "down_pannel_EXT_white", disableImg: "down_pannel_EXT_gray", type: .btn_2)
             btn3.setupButton(normalImg: "down_pannel_LIVE_red", selectedImg: "down_pannel_LIVE_white", disableImg: "down_pannel_LIVE_gray", type: .btn_3)
