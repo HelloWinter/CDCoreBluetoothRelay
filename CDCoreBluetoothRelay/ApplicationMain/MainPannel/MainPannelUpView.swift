@@ -18,7 +18,7 @@ import UIKit
 class MainPannelUpView: UIImageView {
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kReceivedValue), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kReceivedRP8Value), object: nil)
     }
     
     private lazy var imgBrand : UIImageView = {
@@ -30,9 +30,8 @@ class MainPannelUpView: UIImageView {
     
     private lazy var btnSwitch : PannelButton = {
         let btn = PannelButton()
-        btn.isEnabled = true
+        btn.setupButton(normalImg: "up_pannel_switch_gray", selectedImg: "up_pannel_switch_white", disableImg: nil, type: .btn_switch,isEnable: true)
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
-        btn.setupButton(normalImg: "up_pannel_switch_gray", selectedImg: "up_pannel_switch_white", disableImg: nil, type: .btn_switch)
         return btn
     }()
     
@@ -95,7 +94,7 @@ class MainPannelUpView: UIImageView {
         addSubview(btnS)
         addSubview(btnNAV)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(receivedData(noti:)), name: NSNotification.Name(rawValue: kReceivedValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(receivedData(noti:)), name: NSNotification.Name(rawValue: kReceivedRP8Value), object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -139,7 +138,7 @@ class MainPannelUpView: UIImageView {
     
     @objc private func receivedData(noti : Notification){
         if let data = noti.object as? Data {
-            print("主面板收到外设数据")
+            print("主面板收到RP8外设数据")
             let arr = extractButtonStatus(byte: data.last!)
             btnSwitch.isSelected = arr[7]
             self.isHighlighted = arr[7]
@@ -159,10 +158,11 @@ class MainPannelUpView: UIImageView {
     }
     
     @objc private func sendData(sender : PannelButton){
-        print("点击了\(sender.btnType)")
+        "这里要和rp5区分"
         let original = "550102" + sender.getStatusCode() + (!sender.isSelected ? "01" : "00")
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
         let sendHexString = original + String(format: "%x", crc8!)
+        print("点击了\(sender.btnType)，发送了数据：\(sendHexString)")
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
     }
     

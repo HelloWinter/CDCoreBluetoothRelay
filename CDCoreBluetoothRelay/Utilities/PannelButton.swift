@@ -36,7 +36,7 @@ class PannelButton: UIButton {
     ///   - selectedImg: 打开状态图片
     ///   - disableImg: 不可用状态图片
     ///   - type: 按钮功能类型
-    func setupButton(normalImg : String,selectedImg : String,disableImg : String?,type : ButtonType) -> Void {
+    func setupButton(normalImg : String,selectedImg : String,disableImg : String?,type : ButtonType,isEnable : Bool = false) -> Void {
         setImage(UIImage(named:normalImg), for: .normal)
         setImage(UIImage(named:selectedImg), for: .selected)
         if let img = disableImg {
@@ -45,7 +45,7 @@ class PannelButton: UIButton {
             setImage(nil, for: .disabled)
         }
         btnType = type
-        isEnabled = false
+        isEnabled = isEnable
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -71,6 +71,9 @@ class PannelButton: UIButton {
             statusCode.append("06")//预留
         case .btn_NAV:
             statusCode.append("07")//预留
+        case .btn_anchor:
+            "这里需要修改"
+            statusCode.append("08")//预留
         default:
             CDAutoHideMessageHUD.showMessage(NSLocalizedString("ButtonFunctionUnknown", comment: ""))
             break

@@ -50,7 +50,7 @@ class MainPannelView: UIImageView {
         let pannelDownWidth = ScreenWidth-20
         let pannelDownHeight = pannelDownWidth * 1360.0 / 1553
         pannelDownView.frame = CGRect(x: 10, y: ScreenHeight - pannelDownHeight, width: pannelDownWidth, height: pannelDownHeight)
-        let imgHeight = ScreenWidth * 140.0 / 718
+        let imgHeight = ScreenWidth * 70.0 / 359
         dragImageView.frame = CGRect(x: 0, y: ScreenHeight - imgHeight, width: ScreenWidth, height: imgHeight)
     }
     

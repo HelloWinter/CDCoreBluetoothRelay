@@ -16,7 +16,7 @@ import UIKit
 class MainPannelDownView: UIImageView {
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kReceivedValue), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kReceivedRP8Value), object: nil)
     }
     
     private lazy var imgBrand : UIImageView = {
@@ -90,7 +90,7 @@ class MainPannelDownView: UIImageView {
         addSubview(btn3)
         addSubview(imgBrand)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(receivedData(noti:)), name: NSNotification.Name(rawValue: kReceivedValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(receivedData(noti:)), name: NSNotification.Name(rawValue: kReceivedRP8Value), object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -115,9 +115,9 @@ class MainPannelDownView: UIImageView {
     
     @objc private func receivedData(noti : Notification){
         if let data = noti.object as? Data {
-            print("副面板收到外设数据")
+            print("副面板收到RP8外设数据")
             let arr = extractButtonStatus(byte: data.last!)
-//            btnSwitch.isSelected = arr[7]
+            
             imgBrand.isHighlighted = arr[7]
             btn1.isEnabled = arr[7]
             btnB.isEnabled = arr[7]
@@ -135,9 +135,11 @@ class MainPannelDownView: UIImageView {
     }
     
     @objc private func sendData(sender : PannelButton){
+        "这里要和rp5区分"
         let original = "550102" + sender.getStatusCode() + (!sender.isSelected ? "01" : "00")
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
         let sendHexString = original + String(format: "%x", crc8!)
+        print("点击了\(sender.btnType)，发送了数据：\(sendHexString)")
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
     }
     
@@ -150,16 +152,12 @@ class MainPannelDownView: UIImageView {
             btnM.setupButton(normalImg: "down_pannel_INT_red", selectedImg: "down_pannel_INT_white", disableImg: "down_pannel_INT_gray", type: .btn_M)
             btnS.setupButton(normalImg: "down_pannel_ACC1_red", selectedImg: "down_pannel_ACC1_white", disableImg: "down_pannel_ACC1_gray", type: .btn_S)
         }else{
-            
             btn1.setupButton(normalImg: "down_pannel_1_red", selectedImg: "down_pannel_1_white", disableImg: "down_pannel_1_gray", type: .btn_1)
             btn2.setupButton(normalImg: "down_pannel_2_red", selectedImg: "down_pannel_2_white", disableImg: "down_pannel_2_gray", type: .btn_2)
             btn3.setupButton(normalImg: "down_pannel_3_red", selectedImg: "down_pannel_3_white", disableImg: "down_pannel_3_gray", type: .btn_3)
             btnB.setupButton(normalImg: "down_pannel_B_red", selectedImg: "down_pannel_B_white", disableImg: "down_pannel_B_gray", type: .btn_B)
             btnM.setupButton(normalImg: "down_pannel_M_red", selectedImg: "down_pannel_M_white", disableImg: "down_pannel_M_gray", type: .btn_M)
             btnS.setupButton(normalImg: "down_pannel_S_red", selectedImg: "down_pannel_S_white", disableImg: "down_pannel_S_gray", type: .btn_S)
-//            btnSwitch.setupButton(normalImg: "down_pannel_switch_gray", selectedImg: "down_pannel_switch_white", disableImg: nil, type: .btn_switch)
-            //            imgView.image = UIImage(named: "yak_power_gray")
-            //            imgView.highlightedImage = UIImage(named: "yak_power_white")
         }
     }
 

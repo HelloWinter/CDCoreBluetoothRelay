@@ -28,6 +28,9 @@
 		B41B3BF220661EAF00DEDCC5 /* CDUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF120661EAF00DEDCC5 /* CDUtilities.swift */; };
 		B41B3BF62067418500DEDCC5 /* MainPannelDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF52067418500DEDCC5 /* MainPannelDownView.swift */; };
 		B41B3BF82067688C00DEDCC5 /* PannelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41B3BF72067688C00DEDCC5 /* PannelButton.swift */; };
+		B4BD7BA5207256C500DECD3E /* RP5MainPannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD7BA4207256C500DECD3E /* RP5MainPannelView.swift */; };
+		B4BD7BA7207256F400DECD3E /* RP5ConfigurePannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD7BA6207256F400DECD3E /* RP5ConfigurePannelView.swift */; };
+		B4BD7BA92072585600DECD3E /* RP5MainPannelDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD7BA82072585600DECD3E /* RP5MainPannelDownView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +63,9 @@
 		B41B3BF120661EAF00DEDCC5 /* CDUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUtilities.swift; sourceTree = "<group>"; };
 		B41B3BF52067418500DEDCC5 /* MainPannelDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPannelDownView.swift; sourceTree = "<group>"; };
 		B41B3BF72067688C00DEDCC5 /* PannelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PannelButton.swift; sourceTree = "<group>"; };
+		B4BD7BA4207256C500DECD3E /* RP5MainPannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RP5MainPannelView.swift; sourceTree = "<group>"; };
+		B4BD7BA6207256F400DECD3E /* RP5ConfigurePannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RP5ConfigurePannelView.swift; sourceTree = "<group>"; };
+		B4BD7BA82072585600DECD3E /* RP5MainPannelDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RP5MainPannelDownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +161,8 @@
 				B41B3BCA2065F46A00DEDCC5 /* PannelTypeSelectView.swift */,
 				B41B3BC42065F40A00DEDCC5 /* MainPannelUpView.swift */,
 				B41B3BF52067418500DEDCC5 /* MainPannelDownView.swift */,
+				B4BD7BA4207256C500DECD3E /* RP5MainPannelView.swift */,
+				B4BD7BA82072585600DECD3E /* RP5MainPannelDownView.swift */,
 			);
 			path = MainPannel;
 			sourceTree = "<group>";
@@ -164,6 +172,7 @@
 			children = (
 				B414A1592068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift */,
 				B41B3BC82065F45600DEDCC5 /* ConfigurePannelView.swift */,
+				B4BD7BA6207256F400DECD3E /* RP5ConfigurePannelView.swift */,
 			);
 			path = ConfigurePannel;
 			sourceTree = "<group>";
@@ -249,9 +258,12 @@
 				B414A15A2068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift in Sources */,
 				B41B3BCF2065F49400DEDCC5 /* EmailRSSView.swift in Sources */,
 				B41A15ED20635CD00057BAA6 /* CDAutoHideMessageHUD.m in Sources */,
+				B4BD7BA7207256F400DECD3E /* RP5ConfigurePannelView.swift in Sources */,
 				B410306D205D3965002B6579 /* AppDelegate.swift in Sources */,
 				B41B3BC52065F40A00DEDCC5 /* MainPannelView.swift in Sources */,
+				B4BD7BA5207256C500DECD3E /* RP5MainPannelView.swift in Sources */,
 				B41B3BCD2065F46A00DEDCC5 /* PannelTypeSelectPopView.swift in Sources */,
+				B4BD7BA92072585600DECD3E /* RP5MainPannelDownView.swift in Sources */,
 				B417C2ED205E057000858FCD /* CDCoreBluetoothTool.swift in Sources */,
 				B41B3BF82067688C00DEDCC5 /* PannelButton.swift in Sources */,
 				B41B3BCC2065F46A00DEDCC5 /* PannelTypeSelectView.swift in Sources */,

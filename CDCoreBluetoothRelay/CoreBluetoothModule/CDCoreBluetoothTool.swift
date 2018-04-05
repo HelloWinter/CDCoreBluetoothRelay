@@ -12,14 +12,18 @@ import CoreBluetooth
 private let ServiceUUID = "FFE0"
 ///Write,Notify特征的UUID
 private let CharacteristicUUID = "FFE1"
-///存储最新连接的蓝牙外设UUID的UUIDKey
-private let kBluetoothPeripheralUUIDKey = "kBluetoothPeripheralUUIDKey"
+///存储最新连接的RP8蓝牙外设UUID的UUIDKey
+private let kBluetoothPeripheralRP8UUIDKey = "kBluetoothPeripheralRP8UUIDKey"
+///存储最新连接的RP5蓝牙外设UUID的UUIDKey
+private let kBluetoothPeripheralRP5UUIDKey = "kBluetoothPeripheralRP5UUIDKey"
 ///发现新的蓝牙外设通知
 let kDiscoverBluetoothPeripheral = "DiscoverBluetoothPeripheral"
 ///外设连接状态改变通知
 let kPeripheralConnectStateChanged = "kPeripheralConnectStateChanged"
-///收到外设发送的数据
-let kReceivedValue = "kReceivedValue"
+///收到RP5外设发送的数据
+let kReceivedRP5Value = "kReceivedRP5Value"
+///收到RP8外设发送的数据
+let kReceivedRP8Value = "kReceivedRP8Value"
 
 class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
     
@@ -85,13 +89,15 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     func stopScanPeripheral() -> Void {
         cMgr!.stopScan()
     }
-    
-    /// 断开连接
+    /// 断开当前外设连接
     func cancelConnection() -> Void {
         if self.peripheral != nil {
             cMgr!.cancelPeripheralConnection(self.peripheral!)
         }
+        arrPeriUUID.removeAll()
+        arrPeri.removeAll()
     }
+    
 }
 
 extension CDCoreBluetoothTool {
@@ -115,6 +121,7 @@ extension CDCoreBluetoothTool {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
+        "TODO : 根据切换的继电器类型，过滤扫描到的外设"
         if peripheral.name != nil {
             let uuidString = peripheral.identifier.uuidString
             //保存外设
@@ -124,10 +131,13 @@ extension CDCoreBluetoothTool {
                 //通知更新外设列表显示
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDiscoverBluetoothPeripheral), object: nil)
             }
+            
+            let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? kBluetoothPeripheralRP5UUIDKey : kBluetoothPeripheralRP8UUIDKey
             //已连接过的设备，自动连接
-            if let uuid = UserDefaults.standard.object(forKey: kBluetoothPeripheralUUIDKey) as? String, uuid == peripheral.identifier.uuidString {
+            if let uuid = UserDefaults.standard.object(forKey: key) as? String, uuid == peripheral.identifier.uuidString {
                 connectTo(peripheral: peripheral)
             }else{//搜到设备，但未连接,需要手动连接
+                "FIXIT : 这里有问题，可能被执行多次"
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {[weak self] in
                     //等待3秒如果还是没有连接上，就跳转到配置页，手动连接
                     if !(self?.peripheralConnectState)! {
@@ -212,7 +222,9 @@ extension CDCoreBluetoothTool {
         if self.characteristic != nil && self.notifyCharteristic != nil {
             //外设连接并扫描特征成功
             //保存uuid
-            UserDefaults.standard.set(peripheral.identifier.uuidString, forKey: kBluetoothPeripheralUUIDKey)
+            let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? kBluetoothPeripheralRP5UUIDKey : kBluetoothPeripheralRP8UUIDKey
+            UserDefaults.standard.set(peripheral.identifier.uuidString, forKey: key)
+            UserDefaults.standard.synchronize()
             ///通知可以通信了
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: true)
             peripheralConnectState = true
@@ -235,7 +247,9 @@ extension CDCoreBluetoothTool {
                 //校验crc8
                 if let crc = calculateCRC8(data: subData),receiveStr.hasSuffix(String(format: "%x", crc)) {
                     print(String(format: "CRC :%x", crc))
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: kReceivedValue), object: subData)
+                    
+                    let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? kReceivedRP5Value : kReceivedRP8Value
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: key), object: subData)
                 }
             }
             

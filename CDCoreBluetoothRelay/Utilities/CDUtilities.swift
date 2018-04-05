@@ -8,6 +8,29 @@
 
 import UIKit
 
+/// 当前继电器类型
+let arrRelayModel = ["RP-5","RP-8"]
+private let kDefaultRelayModelKey = "kDefaultRelayModelKey"
+func relayModel() -> String? {
+    return UserDefaults.standard.object(forKey: kDefaultRelayModelKey) as? String
+}
+func saveRelayModel(_ model : String){
+    UserDefaults.standard.set(model, forKey: kDefaultRelayModelKey)
+    UserDefaults.standard.synchronize()
+}
+
+/// RP8继电器面板品牌
+let arrPannelType = ["Gator Tail","Smoker Craft","Tracker","Xpress","Other"]
+private let kDefaultPannelTypeKey = "kDefaultPannelTypeKey"
+func rp8BrandType() -> String?{
+    return UserDefaults.standard.object(forKey: kDefaultPannelTypeKey) as? String
+}
+func saveRP8BrandType(_ type : String) {
+    UserDefaults.standard.set(type, forKey: kDefaultPannelTypeKey)
+    UserDefaults.standard.synchronize()
+}
+
+
 enum ScreenType : Int {
     case Phone3_5
     case Phone4_0

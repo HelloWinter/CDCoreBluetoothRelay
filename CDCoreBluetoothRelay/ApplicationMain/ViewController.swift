@@ -8,14 +8,19 @@
 
 import UIKit
 
-private let kDefaultRelayModelKey = "kDefaultRelayModelKey"
-private let kDefaultPannelTypeKey = "kDefaultPannelTypeKey"
 
 class ViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
     }
+    
+    /// 下拉选择控件宽度
+    private let selectViewWidth : CGFloat = (ScreenWidth - 30) * 0.5
+    /// 下拉选择控件高度
+    private let selectViewHeight : CGFloat = 35
+    /// 下拉选择控件Y坐标
+    private let selectViewY : CGFloat = currentScreenType() == .Phone_X ? 60 : 20
     
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -24,21 +29,20 @@ class ViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bounces = false
-        scrollView.addSubview(mainPannel)
-        scrollView.addSubview(configurePannel)
         scrollView.contentSize = CGSize(width: ScreenWidth, height: ScreenHeight * 2)
         return scrollView
     }()
     
-    private let arrRelayModel = ["RP-5","RP-8"]
+    private let pannelTypeCustomize = "Customize"
+    private lazy var currentRelayModel : String = relayModel() ?? arrRelayModel.last!
+    private lazy var currentPannelType : String = rp8BrandType() ?? pannelTypeCustomize
     
     private lazy var relayModelSelectView : PannelTypeSelectView = {
-        let view = PannelTypeSelectView()
-        view.setupView(text: arrRelayModel.last!, isResponseEvent: false)
+        let view = PannelTypeSelectView(frame: CGRect(x: 10, y: selectViewY, width: selectViewWidth, height: selectViewHeight))
+        view.setupView(text: currentRelayModel , isResponseEvent: false)
         view.showOrHideViewClosure = {[weak self] (show : Bool) in
             self?.showRelayModelSelectPopVew(show)
         }
-        view.isHidden = true//
         return view
     }()
     
@@ -52,12 +56,10 @@ class ViewController: UIViewController {
         return popView
     }()
     
-    private let arrPannelType = ["Gator Tail","Smoker Craft","Tracker","Xpress","Other"]
-    
     private lazy var pannelTypeSelectView : PannelTypeSelectView = {
-        let view = PannelTypeSelectView()
-        let type = UserDefaults.standard.object(forKey: kDefaultPannelTypeKey) as? String
-        view.setupView(text: type ?? "Customize", isResponseEvent: type != nil ? false : true)
+        let view = PannelTypeSelectView(frame: CGRect(x: ScreenWidth - 10 - selectViewWidth, y: selectViewY, width: selectViewWidth, height: selectViewHeight))
+        view.isHidden = (relayModel() != nil && relayModel()! == arrRelayModel.first!)
+        view.setupView(text: currentPannelType , isResponseEvent: currentPannelType == pannelTypeCustomize)
         view.showOrHideViewClosure = {[weak self] (show : Bool) in
             self?.showPannelTypeSelectPopVew(show)
         }
@@ -80,7 +82,7 @@ class ViewController: UIViewController {
     
     private lazy var mainPannel : MainPannelView = {
         let imageV = MainPannelView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
-        if let type = UserDefaults.standard.object(forKey: kDefaultPannelTypeKey) as? String,arrPannelType.contains(type),type != arrPannelType.last {
+        if let type = rp8BrandType(),arrPannelType.contains(type),type != arrPannelType.last {
             imageV.setupPannelType(type: type)
         }else{
             imageV.setupPannelType(type: nil)
@@ -90,7 +92,7 @@ class ViewController: UIViewController {
     
     private lazy var configurePannel : ConfigurePannelView = {
         let imageV = ConfigurePannelView(frame: CGRect(x: 0, y: mainPannel.frame.maxY, width: ScreenWidth, height: ScreenHeight))
-        if let type = UserDefaults.standard.object(forKey: kDefaultPannelTypeKey) as? String,arrPannelType.contains(type),type != arrPannelType.last {
+        if let type = rp8BrandType(),arrPannelType.contains(type),type != arrPannelType.last {
             imageV.setupBrandButton(isCustom: true)
         }else{
             imageV.setupBrandButton(isCustom: false)
@@ -98,19 +100,31 @@ class ViewController: UIViewController {
         return imageV
     }()
     
+    private lazy var rp5MainPannel : RP5MainPannelView = {
+        let view = RP5MainPannelView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
+        return view
+    }()
+    
+    private lazy var rp5ConfigurePannel : RP5ConfigurePannelView = {
+        let imageV = RP5ConfigurePannelView(frame: CGRect(x: 0, y: rp5MainPannel.frame.maxY, width: ScreenWidth, height: ScreenHeight))
+        return imageV
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(scrollView)
+        
+        //设置初始面板
+        if let relayModel = relayModel(), relayModel == arrRelayModel.first! {
+            scrollView.addSubview(rp5MainPannel)
+            scrollView.addSubview(rp5ConfigurePannel)
+        }else{
+            scrollView.addSubview(mainPannel)
+            scrollView.addSubview(configurePannel)
+        }
+        //添加下拉选择控件
         scrollView.addSubview(relayModelSelectView)
         scrollView.addSubview(pannelTypeSelectView)
-        
-        let selectViewWidth : CGFloat = (ScreenWidth - 30) * 0.5
-        let selectViewHeight : CGFloat = 35
-        let selectViewY : CGFloat = currentScreenType() == .Phone_X ? 60 : 20
-        relayModelSelectView.frame = CGRect(x: 10, y: selectViewY, width: selectViewWidth, height: selectViewHeight)
-        pannelTypeSelectView.frame = CGRect(x: ScreenWidth - 10 - selectViewWidth, y: selectViewY, width: selectViewWidth, height: selectViewHeight)
-        
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(peripheralConnectStateChanged), name: NSNotification.Name(rawValue: kPeripheralConnectStateChanged), object: nil)
         
@@ -131,6 +145,9 @@ class ViewController: UIViewController {
         }
     }
     
+    /// 未连接外设状态跳转至手动连接界面
+    ///
+    /// - Parameter state: 是否已连接外设
     @objc private func switchPannel(state : Bool){
         if state {
             if scrollView.contentOffset.y != 0 {
@@ -144,28 +161,55 @@ class ViewController: UIViewController {
         }
     }
     
+    /// 下拉选择控件选择事件
+    ///
+    /// - Parameters:
+    ///   - selectViewType: 下拉选择控件类型
+    ///   - selectIndex: 选中的index
     private func setupSelectView(selectViewType : SelectViewType,selectIndex : Int) {
         if selectViewType == .relayModel {
             relayModelSelectView.resetButtonState()
-            let relayModelText = arrRelayModel[selectIndex]
-            relayModelSelectView.setupView(text: relayModelText, isResponseEvent: false)
-            UserDefaults.standard.set(relayModelText, forKey: kDefaultRelayModelKey)
-            UserDefaults.standard.synchronize()
             pannelTypeSelectView.isHidden = selectIndex == 0 ? true : false
+            let relayModelText = arrRelayModel[selectIndex]
+            if relayModelText != currentRelayModel {
+                currentRelayModel = relayModelText
+                relayModelSelectView.setupView(text: relayModelText, isResponseEvent: false)
+                //存储当前继电器种类
+                saveRelayModel(relayModelText)
+                //断开之前外设连接，再扫描
+                CDCoreBluetoothTool.shared.cancelConnection()
+                CDCoreBluetoothTool.shared.scanPeripheral()
+                //清理原来的面板
+                for subView in scrollView.subviews {
+                    if !subView.isKind(of: PannelTypeSelectView.self) {
+                        subView.removeFromSuperview()
+                    }
+                }
+                //切换面板
+                if relayModelText == arrRelayModel.first! {
+                    scrollView.insertSubview(rp5ConfigurePannel, at: 0)
+                    scrollView.insertSubview(rp5MainPannel, at: 0)
+                }else{
+                    scrollView.insertSubview(configurePannel, at: 0)
+                    scrollView.insertSubview(mainPannel, at: 0)
+                }
+            }
         }
         
         if selectViewType == .pannelType  {
             pannelTypeSelectView.resetButtonState()
             let brandText = arrPannelType[selectIndex]
-            pannelTypeSelectView.setupView(text: brandText, isResponseEvent: false)
-            UserDefaults.standard.set(brandText, forKey: kDefaultPannelTypeKey)
-            UserDefaults.standard.synchronize()
-            if brandText != arrPannelType.last {
-                mainPannel.setupPannelType(type: brandText)
-                configurePannel.setupBrandButton(isCustom: true)
-            }else{
-                mainPannel.setupPannelType(type: nil)
-                configurePannel.setupBrandButton(isCustom: false)
+            if brandText != currentPannelType {
+                currentPannelType = brandText
+                pannelTypeSelectView.setupView(text: brandText, isResponseEvent: false)
+                saveRP8BrandType(brandText)
+                if brandText != arrPannelType.last {
+                    mainPannel.setupPannelType(type: brandText)
+                    configurePannel.setupBrandButton(isCustom: true)
+                }else{
+                    mainPannel.setupPannelType(type: nil)
+                    configurePannel.setupBrandButton(isCustom: false)
+                }
             }
         }
     }
