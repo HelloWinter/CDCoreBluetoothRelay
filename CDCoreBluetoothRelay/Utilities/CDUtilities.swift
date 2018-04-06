@@ -127,12 +127,8 @@ func hexStringFrom(data : Data) -> String? {
     }
     var mutableString = String()
     for value in data {
-        let hexStr = String(format: "%x", value & 0xff)
-        if hexStr.count == 2{
-            mutableString.append(hexStr)
-        }else{
-            mutableString.append("0\(hexStr)")
-        }
+        let hexStr = String(format: "%02X", value & 0xff)
+        mutableString.append(hexStr)
     }
     return mutableString
 }
@@ -153,7 +149,7 @@ func calculateCRC8(data : Data?) -> UInt8? {
             }
         }
     }
-    CRC &= 0xff;//保证CRC余码输出为1字节。
+    CRC &= 0xFF;//保证CRC余码输出为1字节。
     return CRC
 }
 ///提取按钮状态

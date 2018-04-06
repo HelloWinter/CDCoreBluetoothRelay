@@ -121,7 +121,7 @@ class RP5MainPannelDownView: UIImageView {
     @objc private func sendData(sender : PannelButton){
         let original = "550102" + sender.getStatusCode() + (!sender.isSelected ? "01" : "00")
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
-        let sendHexString = original + String(format: "%x", crc8!)
+        let sendHexString = original + String(format: "%02X", crc8!)
         print("点击了\(sender.btnType)，发送了数据：\(sendHexString)")
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
     }

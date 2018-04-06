@@ -131,6 +131,8 @@ class ViewController: UIViewController {
         CDCoreBluetoothTool.shared.discoverPeripheralUnconnectClosure = {[weak self] in
             self?.switchPannel(state: false)
         }
+        
+        
     }
     
     override var prefersStatusBarHidden: Bool {

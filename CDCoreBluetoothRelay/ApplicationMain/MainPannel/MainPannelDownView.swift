@@ -116,30 +116,39 @@ class MainPannelDownView: UIImageView {
     @objc private func receivedData(noti : Notification){
         if let data = noti.object as? Data {
             print("副面板收到RP8外设数据")
-            let arr = extractButtonStatus(byte: data.last!)
+            let arrData0 = extractButtonStatus(byte: data.last!)
+
+            imgBrand.isHighlighted = arrData0[7]
+            btn1.isEnabled = arrData0[7]
+            btnB.isEnabled = arrData0[7]
+            btnM.isEnabled = arrData0[7]
+            btnS.isEnabled = arrData0[7]
+            btn2.isEnabled = arrData0[7]
+            btn3.isEnabled = arrData0[7]
+            btnNAV.isEnabled = arrData0[7]
+            btnAnchor.isEnabled = arrData0[7]
+
+            btn1.isSelected = arrData0[6]
+            btnB.isSelected = arrData0[5]
+            btnM.isSelected = arrData0[4]
+            btnS.isSelected = arrData0[3]
+            btn2.isSelected = arrData0[2]
+            btn3.isSelected = arrData0[1]
+            btnNAV.isSelected = arrData0[0]
             
-            imgBrand.isHighlighted = arr[7]
-            btn1.isEnabled = arr[7]
-            btnB.isEnabled = arr[7]
-            btnM.isEnabled = arr[7]
-            btnS.isEnabled = arr[7]
-            btn2.isEnabled = arr[7]
-            btnNAV.isEnabled = arr[7]
+            let arrData1 = extractButtonStatus(byte: data[data.count - 2])
+            btnAnchor.isSelected = arrData1[7]
+            //            arrData0[0]//继电器nav
+            //            arrData1[7]//anchor
             
-            btn1.isSelected = arr[6]
-            btnB.isSelected = arr[5]
-            btnM.isSelected = arr[4]
-            btnS.isSelected = arr[3]
-            btn2.isSelected = arr[2]
         }
     }
     
     @objc private func sendData(sender : PannelButton){
-        "这里要和rp5区分"
-        let original = "550102" + sender.getStatusCode() + (!sender.isSelected ? "01" : "00")
+        let original = "55AA0313" + sender.getStatusCode()
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
-        let sendHexString = original + String(format: "%x", crc8!)
-        print("点击了\(sender.btnType)，发送了数据：\(sendHexString)")
+        let sendHexString = original + String(format: "%02X", crc8!)
+        print("RP8点击了\(sender.btnType)，发送了数据：\(sendHexString)")
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
     }
     

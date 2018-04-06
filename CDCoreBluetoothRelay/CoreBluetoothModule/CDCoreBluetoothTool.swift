@@ -53,7 +53,12 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
     private var peripheralConnectRetry = 0
     ///获取所有按钮初始状态
     func getAllButtonState() -> Void {
-        sendToPeripheralWith(hexString: "550102F5F59F")
+        if (relayModel() != nil && relayModel()! == arrRelayModel.first!) {
+            sendToPeripheralWith(hexString: "550102F5F59F")
+        }else{
+//            print(String(format: "CRC8：%02X", calculateCRC8(data: dataFrom(hexString: "550102F5F5"))!))
+            sendToPeripheralWith(hexString: "55AA0111C2")
+        }
         
 //        sendToPeripheralWith(hexString: "5501020001d9")//测试
 //        sendToPeripheralWith(hexString: "55010201011d")//测试
@@ -64,6 +69,9 @@ class CDCoreBluetoothTool: NSObject,CBCentralManagerDelegate,CBPeripheralDelegat
 //        sendToPeripheralWith(hexString: "55000200202b")//测试
 //        sendToPeripheralWith(hexString: "5500020003ea")//测试
 //        sendToPeripheralWith(hexString: "550002000008")//测试
+//        55AA0312000198
+//        55AA0312001105
+        
     }
     ///向外设发送16进制字符串
     func sendToPeripheralWith(hexString : String?) {
@@ -121,8 +129,9 @@ extension CDCoreBluetoothTool {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
-        "TODO : 根据切换的继电器类型，过滤扫描到的外设"
-        if peripheral.name != nil {
+        //"根据切换的继电器类型，过滤扫描到的外设"
+        let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? "RP-5" : "RP-8"
+        if let periname = peripheral.name,periname.uppercased().hasPrefix(key) {
             let uuidString = peripheral.identifier.uuidString
             //保存外设
             if !arrPeriUUID.contains(uuidString) {
@@ -236,23 +245,25 @@ extension CDCoreBluetoothTool {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         print("读取外设数据调用")
         if let error = error {
-            print("读取外设数据错误 ： \(error.localizedDescription)")
+            print("读取外设数据错误 ：\(error.localizedDescription)")
             return
         }
-        if characteristic.uuid.uuidString == CharacteristicUUID {
-            if let data = characteristic.value, let receiveStr = hexStringFrom(data: data), receiveStr.hasPrefix("5500") {
-                print("读取外设数据 receiveStr : \(receiveStr)")
+        if characteristic.uuid.uuidString != CharacteristicUUID {
+            return
+        }
+        if let data = characteristic.value, let receiveStr = hexStringFrom(data: data)?.uppercased() {
+            print("读取外设数据 receiveStr : \(receiveStr)")
+            if receiveStr.hasPrefix("5500") || receiveStr.hasPrefix("55AA0312") {
                 var subData = data
                 subData.remove(at: (data.count-1))
                 //校验crc8
-                if let crc = calculateCRC8(data: subData),receiveStr.hasSuffix(String(format: "%x", crc)) {
-                    print(String(format: "CRC :%x", crc))
-                    
-                    let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? kReceivedRP5Value : kReceivedRP8Value
+                if let crc = calculateCRC8(data: subData),receiveStr.hasSuffix(String(format: "%02X", crc)) {
+                    print(String(format: "CRC :%02X", crc))
+//                    let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? kReceivedRP5Value : kReceivedRP8Value
+                    let key = receiveStr.hasPrefix("5500") ? kReceivedRP5Value : kReceivedRP8Value
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: key), object: subData)
                 }
             }
-            
         }
     }
     //订阅状态发生改变时调用改变

@@ -9,15 +9,16 @@
 import UIKit
 
 enum ButtonType : Int{
-    case btn_NAV = 0 //继电器按钮NAV
+    case btn_NAV = 0 //继电器NAV按钮
     case btn_anchor //继电器按钮anchor
-    case btn_B   //继电器按钮B
-    case btn_M   //继电器按钮M
-    case btn_S   //继电器按钮S
-    case btn_1   //继电器按钮1
-    case btn_2   //继电器按钮2
-    case btn_3   //继电器按钮3
-    case btn_switch //继电器开关
+    case btn_B   //按钮B
+    case btn_M   //按钮M
+    case btn_S   //按钮S
+    case btn_1   //按钮1
+    case btn_2   //按钮2
+    case btn_3   //按钮3
+    case btn_switch //遥控器开关按钮
+    case btn_NAV_control //遥控器板NAV按钮
     case btn_unknown //未知
 }
 
@@ -68,12 +69,13 @@ class PannelButton: UIButton {
         case .btn_2:
             statusCode.append("05")
         case .btn_3:
-            statusCode.append("06")//预留
+            statusCode.append("06")
         case .btn_NAV:
-            statusCode.append("07")//预留
+            statusCode.append("07")
         case .btn_anchor:
-            "这里需要修改"
-            statusCode.append("08")//预留
+            statusCode.append("08")
+        case .btn_NAV_control:
+            statusCode.append("09")
         default:
             CDAutoHideMessageHUD.showMessage(NSLocalizedString("ButtonFunctionUnknown", comment: ""))
             break

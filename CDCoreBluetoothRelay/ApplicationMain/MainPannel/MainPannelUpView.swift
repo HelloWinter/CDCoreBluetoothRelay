@@ -74,7 +74,7 @@ class MainPannelUpView: UIImageView {
     private lazy var btnNAV : PannelButton = {
         let btn = PannelButton()
         btn.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
-        btn.setupButton(normalImg: "up_pannel_NAV_red", selectedImg: "up_pannel_NAV_white", disableImg: "up_pannel_NAV_gray", type: .btn_NAV)
+        btn.setupButton(normalImg: "up_pannel_NAV_red", selectedImg: "up_pannel_NAV_white", disableImg: "up_pannel_NAV_gray", type: .btn_NAV_control)
         return btn
     }()
 
@@ -139,30 +139,48 @@ class MainPannelUpView: UIImageView {
     @objc private func receivedData(noti : Notification){
         if let data = noti.object as? Data {
             print("主面板收到RP8外设数据")
-            let arr = extractButtonStatus(byte: data.last!)
-            btnSwitch.isSelected = arr[7]
-            self.isHighlighted = arr[7]
+            let arrData0 = extractButtonStatus(byte: data.last!)
+            btnSwitch.isSelected = arrData0[7]
+            self.isHighlighted = arrData0[7]
             
-            btn1.isEnabled = arr[7]
-            btnB.isEnabled = arr[7]
-            btnM.isEnabled = arr[7]
-            btnS.isEnabled = arr[7]
-            btn2.isEnabled = arr[7]
+            btn1.isEnabled = arrData0[7]
+            btnB.isEnabled = arrData0[7]
+            btnM.isEnabled = arrData0[7]
+            btnS.isEnabled = arrData0[7]
+            btn2.isEnabled = arrData0[7]
+            btn3.isEnabled = arrData0[7]
+            btnNAV.isEnabled = arrData0[7]
             
-            btn1.isSelected = arr[6]
-            btnB.isSelected = arr[5]
-            btnM.isSelected = arr[4]
-            btnS.isSelected = arr[3]
-            btn2.isSelected = arr[2]
+            btn1.isSelected = arrData0[6]
+            btnB.isSelected = arrData0[5]
+            btnM.isSelected = arrData0[4]
+            btnS.isSelected = arrData0[3]
+            btn2.isSelected = arrData0[2]
+            btn3.isSelected = arrData0[1]
+            
+            //            arrData0[0]//继电器nav
+            //            arrData1[7]//anchor
+            let arrData1 = extractButtonStatus(byte: data[data.count - 2])
+            if arrData0[0] == false && arrData1[7] == false {
+                btnNAV.isSelected = false
+                btnNAV.setImage(UIImage(named: "up_pannel_NAV_green"), for: .normal)
+            }
+            if arrData0[0] == true && arrData1[7] == false {
+                btnNAV.isSelected = false
+                btnNAV.setImage(UIImage(named: "up_pannel_NAV_red"), for: .normal)
+            }
+            if arrData0[0] == true && arrData1[7] == true {
+                btnNAV.isSelected = true
+            }
         }
     }
     
     @objc private func sendData(sender : PannelButton){
-        "这里要和rp5区分"
-        let original = "550102" + sender.getStatusCode() + (!sender.isSelected ? "01" : "00")
+//        let original = "55AA0313" + sender.getStatusCode()
+        let original = "55AA03120011"
         let crc8 = calculateCRC8(data: dataFrom(hexString: original))
-        let sendHexString = original + String(format: "%x", crc8!)
-        print("点击了\(sender.btnType)，发送了数据：\(sendHexString)")
+        let sendHexString = original + String(format: "%02X", crc8!)
+        print("RP8点击了\(sender.btnType)，发送了数据：\(sendHexString)")
         CDCoreBluetoothTool.shared.sendToPeripheralWith(hexString: sendHexString)
     }
     
