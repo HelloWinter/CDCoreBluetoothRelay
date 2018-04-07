@@ -1,0 +1,55 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :custom_lane do
+    # add actions here: https://docs.fastlane.tools/actions
+    
+  end
+
+  lane :beta do
+
+    # match(type: "appstore")
+
+    gym(
+    scheme:"CDCoreBluetoothRelay",
+    export_method:"development",
+    output_directory:"./build",
+    # archive_path:"./Archive",
+    codesigning_identity: "iPhone Developer: zhang hu (VPF968L97F)"
+    )
+
+    # testflight
+    # slack(message: "成功上传测试版到Testflight")
+    
+  end
+
+  lane :upload_pgyer do
+
+    gym(
+    scheme:"CDCoreBluetoothRelay",
+    export_method:"development",
+    output_directory:"./build",
+    # archive_path:"./Archive",
+    codesigning_identity: "iPhone Developer: zhang hu (VPF968L97F)"
+    )
+
+    #上传ipa到蒲公英服务器,前提是你已经安装fastlane蒲公英插件
+    pgyer(api_key: "0b75ffc2a33e35fd017c66383bd9ef30", user_key: "36bd4ccc817b4d98b4178aa06140af1f", update_description: "update by fastlane")
+
+    #上传ipa到fir.im服务器,前提是你已经安装fastlane firim插件
+    # firim(firim_api_token: "db4d7c00fec80b5ef87238bc7b26b86f")
+ 
+  end
+end
