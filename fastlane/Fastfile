@@ -26,7 +26,7 @@ platform :ios do
     scheme:"CDCoreBluetoothRelay",
     export_method:"development",
     output_directory:"./build",
-    # archive_path:"./Archive",
+    archive_path:"./Archive",
     codesigning_identity: "iPhone Developer: zhang hu (VPF968L97F)"
     )
 
@@ -37,11 +37,13 @@ platform :ios do
 
   lane :upload_pgyer do
 
+  	increment_build_number
+
     gym(
     scheme:"CDCoreBluetoothRelay",
     export_method:"development",
     output_directory:"./build",
-    # archive_path:"./Archive",
+    archive_path:"./Archive",
     codesigning_identity: "iPhone Developer: zhang hu (VPF968L97F)"
     )
 
