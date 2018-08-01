@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     /// 下拉选择控件Y坐标
     private let selectViewY : CGFloat = currentScreenType() == .Phone_X ? 60 : 20
     
+    
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.frame = view.bounds
@@ -30,6 +31,9 @@ class ViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bounces = false
         scrollView.contentSize = CGSize(width: ScreenWidth, height: ScreenHeight * 2)
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         return scrollView
     }()
     
@@ -112,6 +116,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        extendedLayoutIncludesOpaqueBars = true
+        automaticallyAdjustsScrollViewInsets = false
         view.addSubview(scrollView)
         
         //设置初始面板
