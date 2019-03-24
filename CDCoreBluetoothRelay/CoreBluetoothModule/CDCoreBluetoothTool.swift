@@ -130,8 +130,8 @@ extension CDCoreBluetoothTool {
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(">>>>>------peripheral : \(peripheral), advertisementData : \(advertisementData), RSSI : \(RSSI)")
         //"根据切换的继电器类型，过滤扫描到的外设"
-        let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? "RP-5" : "RP-8"
-        if let periname = peripheral.name,periname.uppercased().hasPrefix(key) {
+//        let key = (relayModel() != nil && relayModel()! == arrRelayModel.first!) ? "RP-5" : "RP-8"
+//        if let periname = peripheral.name,periname.uppercased().hasPrefix(key) {
             let uuidString = peripheral.identifier.uuidString
             //保存外设
             if !arrPeriUUID.contains(uuidString) {
@@ -156,7 +156,7 @@ extension CDCoreBluetoothTool {
                     }
                 })
             }
-        }
+//        }
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -202,11 +202,11 @@ extension CDCoreBluetoothTool {
             return
         }
         for service in peripheral.services! {
-            if service.uuid.uuidString == ServiceUUID {
+//            if service.uuid.uuidString == ServiceUUID {
                 print("找到了serviceUUID : \(service.uuid.uuidString)")
                 //根据服务扫描特征,传nil代表扫描所有特征
                 peripheral.discoverCharacteristics(nil, for: service)
-            }
+//            }
         }
     }
     
@@ -218,8 +218,11 @@ extension CDCoreBluetoothTool {
             return
         }
         for characteristic in service.characteristics! {
-            if characteristic.uuid.uuidString == CharacteristicUUID {
-                if (characteristic.properties.rawValue & CBCharacteristicProperties.write.rawValue) != 0 {
+            if characteristic.uuid.uuidString.hasPrefix("49535343")  {//CharacteristicUUID
+                let writeValue = characteristic.properties.rawValue & CBCharacteristicProperties.write.rawValue
+                let writeWithoutValue = characteristic.properties.rawValue & CBCharacteristicProperties.writeWithoutResponse.rawValue
+            
+                if (writeValue != 0) && (writeWithoutValue != 0) {
                     self.characteristic = characteristic
                 }
                 if (characteristic.properties.rawValue & CBCharacteristicProperties.notify.rawValue) != 0 {
@@ -248,9 +251,9 @@ extension CDCoreBluetoothTool {
             print("读取外设数据错误 ：\(error.localizedDescription)")
             return
         }
-        if characteristic.uuid.uuidString != CharacteristicUUID {
-            return
-        }
+//        if characteristic.uuid.uuidString != CharacteristicUUID {
+//            return
+//        }
         if let data = characteristic.value, let receiveStr = hexStringFrom(data: data)?.uppercased() {
             print("读取外设数据 receiveStr : \(receiveStr)")
             if receiveStr.hasPrefix("5500") || receiveStr.hasPrefix("55AA0312") {

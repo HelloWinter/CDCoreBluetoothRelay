@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ButtonType : Int{
+enum CustomButtonType : Int{
     case btn_NAV = 0 //继电器NAV按钮
     case btn_anchor //继电器按钮anchor
     case btn_B   //按钮B
@@ -24,7 +24,7 @@ enum ButtonType : Int{
 
 class PannelButton: UIButton {
     
-    private(set) var btnType : ButtonType = .btn_unknown
+    private(set) var btnType : CustomButtonType = .btn_unknown
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,7 +37,7 @@ class PannelButton: UIButton {
     ///   - selectedImg: 打开状态图片
     ///   - disableImg: 不可用状态图片
     ///   - type: 按钮功能类型
-    func setupButton(normalImg : String,selectedImg : String,disableImg : String?,type : ButtonType,isEnable : Bool = false) -> Void {
+    func setupButton(normalImg : String,selectedImg : String,disableImg : String?,type : CustomButtonType,isEnable : Bool = false) -> Void {
         setImage(UIImage(named:normalImg), for: .normal)
         setImage(UIImage(named:selectedImg), for: .selected)
         if let img = disableImg {
