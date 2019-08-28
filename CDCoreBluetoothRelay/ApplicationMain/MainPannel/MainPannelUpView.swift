@@ -185,6 +185,14 @@ class MainPannelUpView: UIImageView {
     }
     
     func setupBrandImage(_ brandImage : String?) {
+//        if let img = (brandImage.g{$0}.g{UIImage(named: "brand_\($0)");}) {
+//            imgBrand.image = img
+//            setupBrandButton(isCustom: true)
+//        }else{
+//            imgBrand.image = nil
+//            setupBrandButton(isCustom: false)
+//        }
+        
         if let imgStr = brandImage,let img = UIImage(named: "brand_\(imgStr)") {
             imgBrand.image = img
             setupBrandButton(isCustom: true)

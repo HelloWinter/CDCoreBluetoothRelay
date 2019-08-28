@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     /// 下拉选择控件Y坐标
     private let selectViewY : CGFloat = currentScreenType() == .Phone_X ? 60 : 20
     
+    private var a : Int?
+    
     
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -137,7 +139,11 @@ class ViewController: UIViewController {
         CDCoreBluetoothTool.shared.discoverPeripheralUnconnectClosure = {[weak self] in
             self?.switchPannel(state: false)
         }
-        
+//        a=15
+//        let b = a.g({ (x) -> String? in
+//            return test(a: x)
+//        })
+//        print(b)
         
     }
     
@@ -220,6 +226,9 @@ class ViewController: UIViewController {
                 }
             }
         }
+    }
+    private func test(a : Int) -> String{
+        return "hello!->\(a)"
     }
     
     private func showRelayModelSelectPopVew(_ show : Bool){

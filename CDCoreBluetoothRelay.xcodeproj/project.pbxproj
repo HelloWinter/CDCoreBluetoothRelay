@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		375CA3C022BC7BA2006C90E1 /* OptionalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375CA3BF22BC7BA2006C90E1 /* OptionalExtension.swift */; };
 		B410306D205D3965002B6579 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B410306C205D3965002B6579 /* AppDelegate.swift */; };
 		B4103072205D3965002B6579 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4103070205D3965002B6579 /* Main.storyboard */; };
 		B4103074205D3965002B6579 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4103073205D3965002B6579 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		375CA3BF22BC7BA2006C90E1 /* OptionalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExtension.swift; sourceTree = "<group>"; };
 		B4103069205D3965002B6579 /* CDCoreBluetoothRelay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CDCoreBluetoothRelay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B410306C205D3965002B6579 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4103071205D3965002B6579 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				B41A15EA20635CD00057BAA6 /* CDAutoHideMessageHUD */,
 				B41A15E620634ED10057BAA6 /* StringExtension.swift */,
+				375CA3BF22BC7BA2006C90E1 /* OptionalExtension.swift */,
 				B417C2EF205E077000858FCD /* CDSendEmailManager.swift */,
 				B41B3BF120661EAF00DEDCC5 /* CDUtilities.swift */,
 				B41B3BF72067688C00DEDCC5 /* PannelButton.swift */,
@@ -258,6 +261,7 @@
 				B414A15A2068A8D800B86CBA /* BluetoothPeripheralPopTableView.swift in Sources */,
 				B41B3BCF2065F49400DEDCC5 /* EmailRSSView.swift in Sources */,
 				B41A15ED20635CD00057BAA6 /* CDAutoHideMessageHUD.m in Sources */,
+				375CA3C022BC7BA2006C90E1 /* OptionalExtension.swift in Sources */,
 				B4BD7BA7207256F400DECD3E /* RP5ConfigurePannelView.swift in Sources */,
 				B410306D205D3965002B6579 /* AppDelegate.swift in Sources */,
 				B41B3BC52065F40A00DEDCC5 /* MainPannelView.swift in Sources */,
